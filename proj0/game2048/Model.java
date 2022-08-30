@@ -116,10 +116,76 @@ public class Model extends Observable {
      *    and the trailing tile does not.
      */
     public void tilt(Side side) {
+        /**note to self for when i come back: helper fn, should be called at every instance when i meet something that is not null
+         * for each call to tilt i need to find a way to keep track of which indicices(after merging) have been already merged.
+         * 
+         */
+        boolean changed = false;
+
+        for (int row = 0; row < _board.size(); row ++){
+
+            for (int col=0; col < _board.size(); col ++){
+                boolean merged = false;
+                int modified_row = _board.size() - 1  - row;
+                if (_board.tile(col, modified_row) != null){
+                    if ((row + 1 < _board.size()) && (_board.tile(col, modified_row-1).value() == _board.tile(col, modified_row).value())) {
+
+                        Tile t = _board.tile(col, modified_row -1);
+
+                        //merge the two, cahnge score, change change, change status of tile (row + 1)
+
+                        _board.move(col, modified_row, t);
+                        _score += _board.tile(col, modified_row).value();
+                        t = null; // trying to set the old tile to Null
+                       // _board.tile(col, row+1) = null;   ///set the old tile to Null
+                        merged = true;
+                        changed = true;
+                    }
+                    if (row != 0){
+                    helper(col,row, merged, _board.tile(col, modified_row).value());
+                }}
 
 
+
+            }
+        }
 
         checkGameOver();
+    }
+    /** creates a modified row var*/
+    public int modified(int row){
+        return _board.size() - 1  - row;
+    }
+    public void helper(int col, int row, boolean merged, int curr_val){
+        int old_row = modified(row);
+        int modified_row = modified(row);
+        while ((row - 1 >=0) && (_board.tile(col, modified_row +1) == null)) {
+            row -=1;
+            modified_row +=1;
+        }
+
+
+        if ((row - 1 >=0) && (_board.tile(col, modified_row +1 ) != null) && (_board.tile(col, modified_row +1).value() ==curr_val )){
+
+            if (merged == false){
+
+                Tile t = _board.tile(col, old_row);
+                _board.move(col, modified_row +1, t );
+                _score += _board.tile(col,  modified_row+1).value();
+                t = null;
+
+
+            }
+
+        }
+        else{
+            Tile t = _board.tile(col, old_row);
+            _board.move(col,modified_row, t);
+            t = null;
+
+
+        }
+
     }
 
     /** Checks if the game is over and sets the gameOver variable
