@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author Alexei Ionov
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -116,7 +116,8 @@ public class Model extends Observable {
      *    and the trailing tile does not.
      */
     public void tilt(Side side) {
-        // TODO: Fill in this function.
+
+
 
         checkGameOver();
     }
@@ -137,7 +138,25 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        int col = 0;
+
+        int s = b.size();
+        int row = 0;
+
+        while (row < s){
+            if (b.tile(col, row) == null){
+                return true;
+            }
+            else if (col == s -1 ){
+
+                row +=1;
+                col = 0;
+
+
+            }
+            col+=1;
+
+        }
         return false;
     }
 
@@ -147,9 +166,35 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        int col = 0;
+        //(!a. equals(b);
+
+        int s = b.size();
+        int row = 0;
+
+        while (row < s){
+            if (!((b.tile(col, row) == null)) && ((b.tile(col, row)).value() == MAX_PIECE)) {
+                return true;
+            }
+
+            else if (col == s -1 ){
+
+                row +=1;
+                col = 0;
+
+
+            }
+            else{
+                col +=1;
+            }
+
+
+        }
         return false;
     }
+
+
+
 
     /**
      * Returns true if there are any valid moves on the board.
@@ -158,7 +203,39 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        int col = 0;
+        int row = 0;
+        int s = b.size();
+        while (row < s) {
+            if (b.tile(col, row) == null) {
+                return true;
+            }
+            else if ((row - 1 >= 0) && (b.tile(col, row).value() == b.tile(col, row-1).value())){
+                return true;
+
+            }
+            else if ((col -1  >= 0) && (b.tile(col, row).value() == b.tile(col -1 , row).value())) {
+                return true;
+            }
+            else if ((row +1 < s) && (b.tile(col, row).value() == b.tile(col, row+1).value())) {
+                return true;
+            }
+            else if ((col + 1 <s ) && (b.tile(col, row).value() == b.tile(col + 1, row).value())) {
+                return true;
+            }
+
+            if (col == s- 1){
+                row +=1;
+                col =0;
+
+            }
+            else{
+                col +=1;
+            }
+
+
+
+        }
         return false;
     }
 
