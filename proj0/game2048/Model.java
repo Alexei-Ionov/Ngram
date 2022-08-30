@@ -118,75 +118,55 @@ public class Model extends Observable {
     public void tilt(Side side) {
         /**note to self for when i come back: helper fn, should be called at every instance when i meet something that is not null
          * for each call to tilt i need to find a way to keep track of which indicices(after merging) have been already merged.
-         * 
-         */
+         * new approach: go column by column, top, down --> that way its easier to check if something has been merged already + makes it easier to not have to use modified rol
+         * */
+        _board.setViewingPerspective(side);
         boolean changed = false;
+        for (int col = 0; col < _board.size(); col++) {
+            int[] hashtable = new int[_board.size()];  //0s represent un-merged tiles in this iteration/use of tilt
 
-        for (int row = 0; row < _board.size(); row ++){
+            for (int row = _board.size() - 1; row >= 0; row--) {
 
-            for (int col=0; col < _board.size(); col ++){
-                boolean merged = false;
-                int modified_row = _board.size() - 1  - row;
-                if (_board.tile(col, modified_row) != null){
-                    if ((row + 1 < _board.size()) && (_board.tile(col, modified_row-1).value() == _board.tile(col, modified_row).value())) {
+                if (_board.tile(col, row) != null){
+                    int new_row = helper_method(col, row); //-> determines the heighest row index possible for the given tile, no merging involved
 
-                        Tile t = _board.tile(col, modified_row -1);
+                    if ((new_row + 1 <= _board.size() - 1) && ((_board.tile(col, new_row + 1).value()) == (_board.tile(col, row).value())) && (hashtable[new_row + 1] == 0)) {
 
-                        //merge the two, cahnge score, change change, change status of tile (row + 1)
-
-                        _board.move(col, modified_row, t);
-                        _score += _board.tile(col, modified_row).value();
-                        t = null; // trying to set the old tile to Null
-                       // _board.tile(col, row+1) = null;   ///set the old tile to Null
-                        merged = true;
+                        Tile t = _board.tile(col, row);
+                        _board.move(col, new_row +1, t);
+                        _score += _board.tile(col, new_row + 1).value();
+                        //t = null; //
                         changed = true;
+                        hashtable[new_row + 1] = 1;
                     }
-                    if (row != 0){
-                    helper(col,row, merged, _board.tile(col, modified_row).value());
-                }}
-
-
-
+                    else{
+                        Tile t = _board.tile(col, row);
+                        _board.move(col, new_row, t);
+                        // t = null;//
+                        changed = true;
             }
-        }
-
-        checkGameOver();
+        }}
     }
-    /** creates a modified row var*/
-    public int modified(int row){
-        return _board.size() - 1  - row;
+        _board.setViewingPerspective(Side.NORTH);
+        checkGameOver();}
+
+
+
+        public int helper_method(int col, int row) {
+        int new_row = row;
+        while ((new_row +1 <= _board.size() -1) && (_board.tile(col, new_row +1 ) == null)){
+            new_row +=1;
     }
-    public void helper(int col, int row, boolean merged, int curr_val){
-        int old_row = modified(row);
-        int modified_row = modified(row);
-        while ((row - 1 >=0) && (_board.tile(col, modified_row +1) == null)) {
-            row -=1;
-            modified_row +=1;
-        }
+        return new_row; }
 
 
-        if ((row - 1 >=0) && (_board.tile(col, modified_row +1 ) != null) && (_board.tile(col, modified_row +1).value() ==curr_val )){
-
-            if (merged == false){
-
-                Tile t = _board.tile(col, old_row);
-                _board.move(col, modified_row +1, t );
-                _score += _board.tile(col,  modified_row+1).value();
-                t = null;
 
 
-            }
-
-        }
-        else{
-            Tile t = _board.tile(col, old_row);
-            _board.move(col,modified_row, t);
-            t = null;
 
 
-        }
 
-    }
+
+
 
     /** Checks if the game is over and sets the gameOver variable
      *  appropriately.
