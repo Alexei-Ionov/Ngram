@@ -130,11 +130,11 @@ public class Model extends Observable {
                 if (_board.tile(col, row) != null){
                     int new_row = helper_method(col, row); //-> determines the heighest row index possible for the given tile, no merging involved
 
-                    if ((new_row + 1 <= _board.size() - 1) && ((_board.tile(col, new_row + 1).value()) == (_board.tile(col, row).value())) && (hashtable[new_row + 1] == 0)) {
+                    if ((new_row + 1 <= _board.size() - 1) && ((_board.tile(col, new_row + 1) != null)) && ((_board.tile(col, new_row + 1).value()) == (_board.tile(col, row).value())) && (hashtable[new_row + 1] == 0)) {
 
                         Tile t = _board.tile(col, row);
                         _board.move(col, new_row +1, t);
-                        _score += _board.tile(col, new_row + 1).value();
+                        _score += _board.tile(col, new_row + 1).value(); //increment score by the new value of our merged tile
                         //t = null; //
                         changed = true;
                         hashtable[new_row + 1] = 1;
