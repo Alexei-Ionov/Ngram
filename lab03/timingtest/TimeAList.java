@@ -29,7 +29,7 @@ public class TimeAList {
 
 
     public static void timeAListConstruction() {
-        int max = 32000;
+        int max = 128000;
 
         AList time_lst = new AList();
 
