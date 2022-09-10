@@ -53,18 +53,21 @@ public class TestBuggyAList {
                 // size
                 int Lsize = L.size();
                 int Buggysize = buggy_lst.size();
+                System.out.println("Lsize: " + Lsize);
+                System.out.println("Buggysize: " + Buggysize);
+
 
             }
             else if (operationNumber == 2) {
                 // size
-                if ((L.size() >0) && (buggy_lst.size() > 0)){
+                if (L.size() >0){
                     int L_last_elem = L.getLast();
                     int buggy_last_elem = L.getLast();
                     assertEquals(L_last_elem, buggy_last_elem);
             }
             else{
 
-                if ((L.size() >0) && (buggy_lst.size() > 0)){
+                if (L.size() >0){
                     assertEquals(buggy_lst.removeLast(), L.removeLast());
 
 
