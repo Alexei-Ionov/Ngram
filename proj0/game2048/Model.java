@@ -150,8 +150,6 @@ public class Model extends Observable {
         _board.setViewingPerspective(Side.NORTH);
         checkGameOver();}
 
-
-
         public int helper_method(int col, int row) {
         int new_row = row;
         while ((new_row +1 <= _board.size() -1) && (_board.tile(col, new_row +1 ) == null)){
