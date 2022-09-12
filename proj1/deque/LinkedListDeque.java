@@ -34,7 +34,7 @@ public class LinkedListDeque<T> {
         return size;
     }
 
-    private void Add_To_Empty_List(T val) {
+    private void addToEmptyList(T val) {
         sentinel.next = new Node(val, sentinel, sentinel);
         sentinel.prev = sentinel.next;
         size = 1;
@@ -42,94 +42,84 @@ public class LinkedListDeque<T> {
 
     public void addFirst(T val) {
         if (isEmpty()) {
-            Add_To_Empty_List(val);
-        }
+            addToEmptyList(val); }
+
         else {
             Node temp = sentinel.next;
             sentinel.next = new Node(val, sentinel, temp);
             temp.prev = sentinel.next;
-            size += 1;
-        }
+            size += 1; }
     }
     public void addLast(T val) {
         if (isEmpty()) {
-            Add_To_Empty_List(val);
-        }
+            addToEmptyList(val); }
+
         else {
             Node last = new Node(val, sentinel.prev, sentinel);
             sentinel.prev.next = last;
             sentinel.prev = last;
-            size += 1;
-        }
+            size += 1; }
     }
     public boolean isEmpty() {
         if (size == 0) {
-            return true;
-        }
+            return true; }
         return false;
     }
     public void printDeque() {
-        Node Curr_Node = sentinel.next;
-        while (Curr_Node != null) {
-            System.out.print(Curr_Node.val + " ");
-            if (Curr_Node.next == sentinel) {
-                break;
-            }
-
-            Curr_Node = Curr_Node.next;
+        Node currNode = sentinel.next;
+        while (currNode != null) {
+            System.out.print(currNode.val + " ");
+            if (currNode.next == sentinel) {
+                break; }
+            currNode = currNode.next;
         }
         System.out.println();
     }
     public T removeFirst() {
         if (isEmpty()) {
 
-            return null;
-        }
+            return null; }
+
         else {
             T res = sentinel.next.val;
             sentinel.next = sentinel.next.next;
             sentinel.next.prev = sentinel;
             size -= 1;
-            return res;
-        }
+            return res; }
     }
     public T removeLast() {
         if (isEmpty()) {
 
-            return null;
-        }
+            return null; }
+
         else {
             T res = sentinel.prev.val;
             sentinel.prev = sentinel.prev.prev;
             sentinel.prev.next = sentinel;
             size -= 1;
-            return res;
-        }
+            return res; }
     }
     public T get(int index) {
         int Curr_Index = 0;
         Node head = sentinel.next;
         while (head != null) {
             if (Curr_Index == index) {
-                return head.val;
-            }
+                return head.val; }
             Curr_Index += 1;
-            head = head.next;
-        }
+            head = head.next; }
+
         return null;
     }
-    private T Get_Recursion_Helper_Fn(int index, Node head) {
+    private T getRecursionHelperFn(int index, Node head) {
         if (head == sentinel) {
-            return null;
-        }
+            return null; }
         if (index == 0) {
-            return head.val;
-        }
-        return Get_Recursion_Helper_Fn(index - 1, head.next);
+            return head.val; }
+        return getRecursionHelperFn(index - 1, head.next);
     }
 
     public T getRecursive(int index) {
         Node head = sentinel.next;
-        return Get_Recursion_Helper_Fn(index, head);
+        return getRecursionHelperFn(index, head);
     }
 }
