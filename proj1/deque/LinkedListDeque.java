@@ -43,9 +43,7 @@ public class LinkedListDeque<T> {
     public void addFirst(T val) {
         if (isEmpty()) {
             addToEmptyList(val);
-        }
-
-        else {
+        } else {
             Node temp = sentinel.next;
             sentinel.next = new Node(val, sentinel, temp);
             temp.prev = sentinel.next;
@@ -55,9 +53,7 @@ public class LinkedListDeque<T> {
     public void addLast(T val) {
         if (isEmpty()) {
             addToEmptyList(val);
-        }
-
-        else {
+        } else {
             Node last = new Node(val, sentinel.prev, sentinel);
             sentinel.prev.next = last;
             sentinel.prev = last;
@@ -85,9 +81,7 @@ public class LinkedListDeque<T> {
         if (isEmpty()) {
 
             return null;
-        }
-
-        else {
+        } else {
             T res = sentinel.next.val;
             sentinel.next = sentinel.next.next;
             sentinel.next.prev = sentinel;
@@ -97,11 +91,8 @@ public class LinkedListDeque<T> {
     }
     public T removeLast() {
         if (isEmpty()) {
-
             return null;
-        }
-
-        else {
+        } else {
             T res = sentinel.prev.val;
             sentinel.prev = sentinel.prev.prev;
             sentinel.prev.next = sentinel;
