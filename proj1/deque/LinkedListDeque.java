@@ -185,25 +185,6 @@ public class LinkedListDeque<Item> {
     public static void main(String[] args){
         /// should call her input-ed LInked list deque. however, this means that temp if input is null is also null so will get eror
 
-        LinkedListDeque attempt= new LinkedListDeque(3);
-        attempt.addFirst(5);
-        attempt.addFirst(10);
-
-        attempt.addFirst(15);
-
-        attempt.addFirst(20);
-        attempt.removeFirst();
-        attempt.printDeque();
-        attempt.removeFirst();
-        attempt.printDeque();
-        attempt.removeLast();
-        attempt.printDeque();
-
-
-
-
-
-
 
     }
 
