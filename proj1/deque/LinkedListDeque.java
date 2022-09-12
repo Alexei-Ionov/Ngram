@@ -42,27 +42,32 @@ public class LinkedListDeque<T> {
 
     public void addFirst(T val) {
         if (isEmpty()) {
-            addToEmptyList(val); }
+            addToEmptyList(val);
+        }
 
         else {
             Node temp = sentinel.next;
             sentinel.next = new Node(val, sentinel, temp);
             temp.prev = sentinel.next;
-            size += 1; }
+            size += 1;
+        }
     }
     public void addLast(T val) {
         if (isEmpty()) {
-            addToEmptyList(val); }
+            addToEmptyList(val);
+        }
 
         else {
             Node last = new Node(val, sentinel.prev, sentinel);
             sentinel.prev.next = last;
             sentinel.prev = last;
-            size += 1; }
+            size += 1;
+        }
     }
     public boolean isEmpty() {
         if (size == 0) {
-            return true; }
+            return true;
+        }
         return false;
     }
     public void printDeque() {
@@ -70,7 +75,8 @@ public class LinkedListDeque<T> {
         while (currNode != null) {
             System.out.print(currNode.val + " ");
             if (currNode.next == sentinel) {
-                break; }
+                break;
+            }
             currNode = currNode.next;
         }
         System.out.println();
@@ -78,43 +84,51 @@ public class LinkedListDeque<T> {
     public T removeFirst() {
         if (isEmpty()) {
 
-            return null; }
+            return null;
+        }
 
         else {
             T res = sentinel.next.val;
             sentinel.next = sentinel.next.next;
             sentinel.next.prev = sentinel;
             size -= 1;
-            return res; }
+            return res;
+        }
     }
     public T removeLast() {
         if (isEmpty()) {
 
-            return null; }
+            return null;
+        }
 
         else {
             T res = sentinel.prev.val;
             sentinel.prev = sentinel.prev.prev;
             sentinel.prev.next = sentinel;
             size -= 1;
-            return res; }
+            return res;
+        }
     }
     public T get(int index) {
-        int Curr_Index = 0;
+        int currIndex = 0;
         Node head = sentinel.next;
         while (head != null) {
-            if (Curr_Index == index) {
-                return head.val; }
-            Curr_Index += 1;
-            head = head.next; }
+            if (currIndex == index) {
+                return head.val;
+            }
+            currIndex += 1;
+            head = head.next;
+        }
 
         return null;
     }
     private T getRecursionHelperFn(int index, Node head) {
         if (head == sentinel) {
-            return null; }
+            return null;
+        }
         if (index == 0) {
-            return head.val; }
+            return head.val;
+        }
         return getRecursionHelperFn(index - 1, head.next);
     }
 
