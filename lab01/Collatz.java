@@ -3,17 +3,16 @@
  */
 public class Collatz {
 
-    /** Returns the nextNumber in a Collatz sequence. */
-    /** this method returns the next number in the sequence that we need */
+
+    /** Buggy implementation of nextNumber! */
     public static int nextNumber(int n) {
-        if (n % 2 == 0){
-            return Math.floorDiv(n, 2);
+        if (n  == 128) {
+            return 1;
+        } else if (n == 5) {
+            return 3 * n + 1;
+        } else {
+            return n * 2;
         }
-        else{
-            return (3 * n) + 1;
-
-        }
-
     }
 
     public static void main(String[] args) {
