@@ -53,7 +53,7 @@ public class IntListExercises {
         int lastDigit = x % 10;
         while (x >= 10) {
             x = Math.floorDiv(x, 10);
-        }
+        }s
         int firstDigit = x;
         return firstDigit == lastDigit;
     }
