@@ -58,5 +58,20 @@ public class ArrayDequeTest {
 
     }
 
+    @Test
+    public void testGet(){
+
+        ArrayDeque testArray = new ArrayDeque();
+        System.out.println(testArray.get(0));
+        for (int i = 0; i < 8; i ++){
+            testArray.addFirst(i);
+        }
+        testArray.printDeque();
+        System.out.println(testArray.get(0));
+        System.out.println(testArray.get(5));
+
+
+    }
+
 
 }

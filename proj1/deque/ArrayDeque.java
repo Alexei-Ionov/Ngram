@@ -48,9 +48,10 @@ public class ArrayDeque<T> {
         }
         //check if firstIndex is still valid, if not: switch it to other side!
         if (firstIndex < 0){
+            rightmostIndex = getLastIndex();
             leftmostIndex = 0;
             firstIndex = getLastIndex();
-            rightmostIndex = getLastIndex();
+
         }
         array[firstIndex] = item;
         size += 1;
@@ -132,7 +133,7 @@ public class ArrayDeque<T> {
         if (isEmpty()){
             return null;
         }
-        return array[index];
+        return array[leftmostIndex+index];
     }
     private boolean loadFactorChecker(){
         return (0.25 <= (float)size/array.length);
