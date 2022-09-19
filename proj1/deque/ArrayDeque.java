@@ -23,7 +23,7 @@ public class ArrayDeque<T> {
         return array.length - 1;
     }
 
-    public void resize(int newSize){
+    private void resize(int newSize){
         T[] newArray = (T[]) new Object[newSize];
         //since I will be doubling on the resize, then i want half the current lenght of empty space on both the left and right of what we currently have!
 
@@ -92,7 +92,7 @@ public class ArrayDeque<T> {
         }
         System.out.println();
     }
-    public boolean noRoomLeft(){
+    private boolean noRoomLeft(){
         return (size == array.length);
     }
 

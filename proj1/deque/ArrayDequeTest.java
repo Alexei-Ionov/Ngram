@@ -11,7 +11,7 @@ public class ArrayDequeTest {
     public void testAdd(){
         ArrayDeque testArray = new ArrayDeque();
         boolean val = false;
-        for (int i =0; i < 16 ; i ++){
+        for (int i =0; i < 32 ; i ++){
             if (val){
 
                 testArray.addFirst(i);
