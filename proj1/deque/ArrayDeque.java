@@ -3,7 +3,6 @@ public class ArrayDeque<T>{
     private int size;
     private int nextFirst;
     private int nextLast;
-    private int numOfAddFirstCalls;
 
     private T[] array;
     public ArrayDeque(){
@@ -11,126 +10,96 @@ public class ArrayDeque<T>{
         size = 0;
         nextFirst = array.length/2;
         nextLast = nextFirst + 1;
-        numOfAddFirstCalls = 0;
-
+        //the beauty of this: if nextFirst is never called, we know the first element will actually be at its position since
+        //it will be the last position for nextLast to reach!!!!
     }
-    private void resize(int newSize){
+    private void resize(int newSize) {
         T[] newArray = (T[]) new Object[newSize];
-        //since I will be doubling on the resize, then i want half the current lenght of empty space on both the left and right of what we currently have!
-        int newStartingPos = newArray.length/4;
-        System.arraycopy(array, 0, newArray, newStartingPos, size());
-        nextFirst = newStartingPos - 1;
-        nextLast = newStartingPos + size();
+        //double the array length. put the first "array" (which will be sorted) into the first half, then what is left will be what will be left to fill of the second half.
+        //for my first nextFirst, it will be off by one, so I need to bump it up.
+        int newStartingPos = newSize/4;
+        int wrappingIndex = getNextFirst(nextFirst);
+        for (int j =newStartingPos; j < (size + newStartingPos); j ++){
+            newArray[j] = array[wrappingIndex];
+            wrappingIndex = getNextFirst(wrappingIndex);
+        }
         array = newArray;
+        nextFirst = newStartingPos - 1;
+        nextLast = size + newStartingPos;
     }
-
+    public void addLast(T item){
+        if (isFull()){
+            resize(size * 2);
+        }
+        array[nextLast] = item;
+        size += 1;
+        //allows for clean circular motion of index --> end to front
+        nextLast = (nextLast + 1) % (array.length);
+    }
     public void addFirst(T item){
         if (isFull()){
             resize(size * 2);
         }
-        if (nextFirst < 0){
-
-            array[array.length + nextFirst] = item;
-        } else {
-            array[nextFirst] = item;
-        }
+        array[nextFirst] = item;
         size += 1;
-        numOfAddFirstCalls += 1;
-        nextFirst -= 1;
-    }
-    public void addLast(T item) {
 
-        if (isFull()) {
-            resize(size * 2);
-        }
-        array[nextLast % array.length] = item;
-        size += 1;
-        nextLast += 1;
+        //allows for wrapping around --> front to end
+        nextFirst = (nextFirst - 1 + array.length) % array.length;
     }
+    //gets me the prev "next first" index
+    private int getNextFirst(int i){
+        return (i + 1) % array.length;
+    }
+
     public void printDeque() {
-        for (int i = 0; i < array.length;  i ++){
-            if (array[i] != null){
-                System.out.print(array[i] + " ");
-            }
+        int wrappingIndex = getNextFirst(nextFirst);
+        for (int j = 0; j < size; j++){
+            System.out.print(array[wrappingIndex] + " ");
+            //gets me the next first index --> this way i will unfold the array... so to speak
+            wrappingIndex = getNextFirst(wrappingIndex);
         }
         System.out.println();
     }
-    public T removeFirst() {
+
+    public T removeFirst(){
+        if (isEmpty()){
+            return null;
+        }
+        //still need to work on downsizing!
+        if (array.length >= 16 && !loadFactorChecker()) {
+            resize(array.length / 2);
+        }
+        int indexToRemove = getNextFirst(nextFirst);
+        T val = array[indexToRemove];
+        array[indexToRemove] = null;
+        size -= 1;
+        nextFirst = indexToRemove;
+        return val;
+    }
+    public T removeLast() {
         if (isEmpty()) {
             return null;
         }
         if (array.length >= 16 && !loadFactorChecker()) {
             resize(array.length / 2);
         }
-        if (nextFirst < 0) {
-            T val = array[nextFirst + 1 + array.length];
-            array[nextFirst + 1 + array.length] = null;
-            size -= 1;
-            numOfAddFirstCalls -= 1;
-            nextFirst += 1;
-            return val;
-
-        } else {
-            T val = array[nextFirst + 1];
-            array[nextFirst + 1] = null;
-            size -= 1;
-            nextFirst += 1;
-            numOfAddFirstCalls -= 1;
-            return val;
-        }
-    }
-    public T removeLast(){
-        if (isEmpty()) {
-            return null;
-        }
-        if (array.length >= 16 && !loadFactorChecker()){
-            resize(array.length/2);
-        }
-        //edge case, last is on the last element of array
-        if (nextLast == array.length){
-            T val = array[array.length -1];
-            array[array.length - 1] = null;
-            size -= 1;
-            nextLast -= 1;
-            return val;
-
-        }
-        // formula works for all other cases
-        T val = array[nextLast % array.length - 1];
-        array[nextLast % array.length - 1] = null;
+        int indexToRemove = (nextLast - 1 + array.length) % (array.length);
+        T val = array[indexToRemove];
+        array[indexToRemove] = null;
         size -= 1;
-        nextLast -= 1;
+        nextLast = indexToRemove;
         return val;
     }
-    public T get(int index){
-        if ((isEmpty()) || (index >= array.length)){
+    public T get(int index) {
+        if ((isEmpty()) || (index >= array.length)) {
             return null;
         }
-        if (numOfAddFirstCalls > 0){
-            if (nextFirst < 0){
-                if (size == array.length){
-                    return array[(nextFirst + 1 + index + array.length) % array.length];
-                }
-                return array[(nextFirst + index + array.length) % array.length];
+        int wrappingIndex = getNextFirst(nextFirst);
+        return array[(wrappingIndex + index) % array.length];
 
-
-              } else {
-                return array[nextFirst + 1 + index];
-             }
-         }
-          // in all other cases, there at least to have had been one call to addLast
-        // we can track the order based on the calls to addLast
-        int back  = array.length - index - 1;
-        if (size == array.length){
-            back += 1;
-        }
-        if (back > nextFirst){
-            int val = (back + nextFirst) % array.length;
-            return array[array.length - val];
-        }
-        return array[(nextLast % array.length) - back];
 
     }
+
     public boolean isEmpty(){
         return (size ==0);
     }
@@ -148,15 +117,7 @@ public class ArrayDeque<T>{
         return array.length - 1;
     }
 
-}
 
 
-
-
-
-    //notes:
-    //for modulo operator: next first will always be decrmeneted and when doing array stuff will ne nextfirst % array.length +1. for next last, it will always be incrementing by 1 and netxLast & array.length for array
-
-
-
+    }
 

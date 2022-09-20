@@ -9,11 +9,13 @@ public class ArrayDequeTest {
     public void testAdd() {
         ArrayDeque newTest = new ArrayDeque();
 
-        boolean val = false;
-        for (int i = 0; i < 8; i++) {
+        boolean val = true;
+        for (int i = 0; i < 30; i++) {
             if (val) {
+                val = false;
                 newTest.addFirst(i);
             } else {
+                val = true;
                 newTest.addLast(i);
             }
             newTest.printDeque();
@@ -45,7 +47,7 @@ public class ArrayDequeTest {
         ArrayDeque newTest = new ArrayDeque();
 
         boolean val = false;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i <8; i++) {
             if (val) {
                 newTest.addFirst(i);
             } else {
@@ -90,8 +92,15 @@ public class ArrayDequeTest {
 
     }
 
-}
+    @Test
+    public void testMod(){
+        int val = -3;
+        System.out.println(val % 16);
+        System.out.println((Math.floorMod(val, 8)));
 
+
+
+    }}
 
 
 
