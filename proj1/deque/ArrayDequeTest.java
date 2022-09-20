@@ -5,73 +5,94 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class ArrayDequeTest {
+    @Test
+    public void testAdd() {
+        ArrayDeque newTest = new ArrayDeque();
+
+        boolean val = false;
+        for (int i = 0; i < 8; i++) {
+            if (val) {
+                newTest.addFirst(i);
+            } else {
+                newTest.addLast(i);
+            }
+            newTest.printDeque();
+
+        }
+
+
+    }
 
     @Test
-    //works!!
-    public void testAdd(){
-        ArrayDeque testArray = new ArrayDeque();
-        boolean val = false;
-        for (int i =0; i < 32 ; i ++){
-            if (val){
+    public void testResize() {
+        ArrayDeque newTest = new ArrayDeque();
+        boolean val = true;
+        for (int i = 0; i < 15; i++) {
+            if (val) {
+                newTest.addFirst(i);
+            } else {
+                newTest.addLast(i);
+            }
+            newTest.printDeque();
 
-                testArray.addFirst(i);
+        }
+
+
+    }
+
+    @Test
+    public void testRemoveFirst() {
+        ArrayDeque newTest = new ArrayDeque();
+
+        boolean val = false;
+        for (int i = 0; i < 3; i++) {
+            if (val) {
+                newTest.addFirst(i);
+            } else {
+                newTest.addLast(i);
+            }
+            newTest.printDeque();
+
+        }
+
+        System.out.println(newTest.removeLast());
+        System.out.println(newTest.removeFirst());
+        newTest.printDeque();
+
+    }
+
+    @Test
+    //works if no resizing is done!
+    public void testGet() {
+        ArrayDeque newTest = new ArrayDeque();
+
+        boolean val = false;
+        for (int i = 0; i < 8; i++) {
+            if (val) {
+                val = false;
+                newTest.addFirst(i);
             } else {
 
-                testArray.addLast(i);
+                newTest.addLast(i);
             }
-
         }
-        testArray.printDeque();
+        newTest.printDeque();
 
-    }
+        System.out.println(newTest.get(0));
+        System.out.println(newTest.get(5));
 
-    @Test
-    public void testRemoveFirst(){
-        ArrayDeque testArray = new ArrayDeque();
-        for (int i = 0; i < 8; i ++){
-            testArray.addFirst(i);
-        }
-        testArray.printDeque();
-        System.out.println(testArray.removeFirst());
-        System.out.println(testArray.removeFirst());
-        System.out.println(testArray.removeFirst());
-        testArray.printDeque();
-        testArray.addFirst(5);
-        testArray.addFirst(5);
-        testArray.addFirst(5);
-        testArray.addFirst(11);
-        testArray.addFirst(11);
-        testArray.printDeque();
+        System.out.println(newTest.removeFirst());
+        newTest.printDeque();
+        System.out.println(newTest.get(3));
 
-    }
-    @Test
-    public void testLoadFactorResize(){
-        ArrayDeque testArray = new ArrayDeque();
-        for (int i = 0; i <= 8; i ++){
-            testArray.addFirst(i);
-        }
-        for (int j = 0; j <= 6; j ++){
-            testArray.removeLast();
-            testArray.printDeque();
-        }
+
 
 
     }
-
-    @Test
-    public void testGet(){
-
-        ArrayDeque testArray = new ArrayDeque();
-        System.out.println(testArray.get(0));
-        for (int i = 0; i < 8; i ++){
-            testArray.addFirst(i);
-        }
-        testArray.printDeque();
-        System.out.println(testArray.get(0));
-        System.out.println(testArray.get(5));
-
-
-    }
-
 
 }
+
+
+
+
+
