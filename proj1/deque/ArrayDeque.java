@@ -1,14 +1,14 @@
 package deque;
-public class ArrayDeque<T>{
+public class ArrayDeque<T> {
     private int size;
     private int nextFirst;
     private int nextLast;
 
     private T[] array;
-    public ArrayDeque(){
+    public ArrayDeque() {
         array = (T[]) new Object[8];
         size = 0;
-        nextFirst = array.length/2;
+        nextFirst = array.length / 2;
         nextLast = nextFirst + 1;
         //the beauty of this: if nextFirst is never called, we know the first element will actually be at its position since
         //it will be the last position for nextLast to reach!!!!
@@ -17,9 +17,9 @@ public class ArrayDeque<T>{
         T[] newArray = (T[]) new Object[newSize];
         //double the array length. put the first "array" (which will be sorted) into the first half, then what is left will be what will be left to fill of the second half.
         //for my first nextFirst, it will be off by one, so I need to bump it up.
-        int newStartingPos = newSize/4;
+        int newStartingPos = newSize / 4;
         int wrappingIndex = getNextFirst(nextFirst);
-        for (int j =newStartingPos; j < (size + newStartingPos); j ++){
+        for (int j = newStartingPos; j < (size + newStartingPos); j++){
             newArray[j] = array[wrappingIndex];
             wrappingIndex = getNextFirst(wrappingIndex);
         }
@@ -27,7 +27,7 @@ public class ArrayDeque<T>{
         nextFirst = newStartingPos - 1;
         nextLast = size + newStartingPos;
     }
-    public void addLast(T item){
+    public void addLast(T item) {
         if (isFull()){
             resize(size * 2);
         }
@@ -36,7 +36,7 @@ public class ArrayDeque<T>{
         //allows for clean circular motion of index --> end to front
         nextLast = (nextLast + 1) % (array.length);
     }
-    public void addFirst(T item){
+    public void addFirst(T item) {
         if (isFull()){
             resize(size * 2);
         }
@@ -47,8 +47,8 @@ public class ArrayDeque<T>{
         nextFirst = (nextFirst - 1 + array.length) % array.length;
     }
     //gets me the prev "next first" index
-    private int getNextFirst(int i){
-        return (i + 1) % array.length;
+    private int getNextFirst(int i) {
+        return (i + 1) % (array.length);
     }
 
     public void printDeque() {
@@ -61,12 +61,11 @@ public class ArrayDeque<T>{
         System.out.println();
     }
 
-    public T removeFirst(){
+    public T removeFirst() {
         if (isEmpty()){
             return null;
         }
-        //still need to work on downsizing!
-        if (array.length >= 16 && !loadFactorChecker()) {
+        if ((array.length >= 16) && (!loadFactorChecker())) {
             resize(array.length / 2);
         }
         int indexToRemove = getNextFirst(nextFirst);
@@ -80,7 +79,7 @@ public class ArrayDeque<T>{
         if (isEmpty()) {
             return null;
         }
-        if (array.length >= 16 && !loadFactorChecker()) {
+        if ((array.length >= 16) && (!loadFactorChecker())) {
             resize(array.length / 2);
         }
         int indexToRemove = (nextLast - 1 + array.length) % (array.length);
@@ -95,29 +94,22 @@ public class ArrayDeque<T>{
             return null;
         }
         int wrappingIndex = getNextFirst(nextFirst);
-        return array[(wrappingIndex + index) % array.length];
-
-
+        return array[(wrappingIndex + index) % (array.length)];
     }
-
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return (size ==0);
     }
-    private boolean isFull(){
+    private boolean isFull() {
         return (size == array.length);
-
     }
-    private boolean loadFactorChecker(){
+    private boolean loadFactorChecker() {
         return (0.25 <= (float)size/array.length);
     }
-    public int size(){
+    public int size() {
         return size;
     }
-    private int getLastIndex(){
-        return array.length - 1;
+    private int getLastIndex() {
+        return (array.length - 1);
     }
-
-
-
     }
 
