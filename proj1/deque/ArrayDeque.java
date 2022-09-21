@@ -3,11 +3,11 @@ package deque;
 import java.util.Iterator;
 
 public class ArrayDeque<T> {
-    private int size;
-    private int nextFirst;
-    private int nextLast;
+    public int size;
+    public int nextFirst;
+    public int nextLast;
 
-    private T[] array;
+    public T[] array;
     public ArrayDeque() {
         array = (T[]) new Object[8];
         size = 0;
