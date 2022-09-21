@@ -1,4 +1,5 @@
 package deque;
+import java.util.Iterator;
 public class LinkedListDeque<T> {
     private class Node {
         private T val;
@@ -127,4 +128,30 @@ public class LinkedListDeque<T> {
         Node head = sentinel.next;
         return getRecursionHelperFn(index, head);
     }
+    public Iterator<T> iterator() {
+        linkedListIterator iter = new linkedListIterator();
+        return iter;
+    }
+
+
+    private class linkedListIterator implements Iterator<T> {
+        private Node iterNode;
+        public linkedListIterator() {
+
+            iterNode = sentinel.next;
+        }
+        public boolean hasNext() {
+            if (iterNode == null) {
+                return false;
+            }
+            return true;
+        }
+        public T next() {
+            T val = iterNode.val;
+            iterNode = iterNode.next;
+            return val;
+        }
+
+    }
+
 }
