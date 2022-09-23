@@ -21,7 +21,7 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
         }
         int nextIndex = getNextFirst(nextFirst);
         T currMax = array[nextIndex];
-        while (cnt <= size){
+        while (cnt < size){
             if (comp.compare(currMax, array[nextIndex]) < 1) {
                 currMax = array[nextIndex];
             }
@@ -32,12 +32,12 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
 
     }
     public T max(Comparator<T> c){
-        if (isEmpty()){
+        if (isEmpty()) {
             return null;
         }
         int nextIndex = getNextFirst(nextFirst);
         T currMax = array[nextIndex];
-        while (cnt <= size){
+        while (cnt < size){
             if (c.compare(currMax, array[nextIndex]) < 1) {
                 currMax = array[nextIndex];
             }
