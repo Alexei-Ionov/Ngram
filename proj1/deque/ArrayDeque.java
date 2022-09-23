@@ -5,22 +5,19 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private int size;
     private int nextFirst;
     private int nextLast;
-    private int capacity;
     private T[] array;
-    private int minIntForResize;
-    public static final int initialSize = 100;
-    public static final int botVal = 4;
-
-
+    private static final int MIN_INT_FOR_RESIZE = 16;
+    private static final int BOTVAL = 4;
+    private static final int CAPACITY = 8;
     public ArrayDeque() {
-        array = (T[]) new Object[initialSize];
+        array = (T[]) new Object[CAPACITY];
         size = 0;
         nextFirst = array.length / 2;
         nextLast = nextFirst + 1;
     }
     private void resize(int newSize) {
         T[] newArray = (T[]) new Object[newSize];
-        int newStartingPos = newSize / botVal;
+        int newStartingPos = newSize / BOTVAL;
         int wrappingIndex = getNextFirst(nextFirst);
         for (int j = newStartingPos; j < (size + newStartingPos); j++) {
             newArray[j] = array[wrappingIndex];
@@ -71,7 +68,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (isEmpty()) {
             return null;
         }
-        if ((array.length >= minIntForResize) && (!loadFactorChecker())) {
+        if ((array.length >= MIN_INT_FOR_RESIZE) && (!loadFactorChecker())) {
             resize(array.length / 2);
         }
         int indexToRemove = getNextFirst(nextFirst);
@@ -86,7 +83,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (isEmpty()) {
             return null;
         }
-        if ((array.length >= minIntForResize) && (!loadFactorChecker())) {
+        if ((array.length >= MIN_INT_FOR_RESIZE) && (!loadFactorChecker())) {
             resize(array.length / 2);
         }
         int indexToRemove = (nextLast - 1 + array.length) % (array.length);
@@ -167,8 +164,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             cnt += 1;
             return val;
         }
-
-
     }
 
 }

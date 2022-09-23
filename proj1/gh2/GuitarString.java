@@ -17,19 +17,18 @@ public class GuitarString {
             buffer.addFirst(0.0);
         }
     }
-        public void pluck() {
-            for (int j = 0; j < buffer.size(); j++) {
-                double r = Math.random() - 0.5;
-                buffer.removeFirst();
-                buffer.addLast(r);
-            }
+    public void pluck() {
+        for (int j = 0; j < buffer.size(); j++) {
+            double r = Math.random() - 0.5;
+            buffer.removeFirst();
+            buffer.addLast(r);
         }
-        public void tic() {
-            Double val = buffer.removeFirst();
-            val = ((val + buffer.get(0)) / 2) * DECAY;
-            buffer.addLast(val);
-        }
-        public double sample() {
-            return buffer.get(0);
-        }
+    }
+    public void tic() {
+        Double val = buffer.removeFirst();
+        val = ((val + buffer.get(0)) / 2) * DECAY;
+        buffer.addLast(val);
+    }
+    public double sample() {
+        return buffer.get(0); }
     }
