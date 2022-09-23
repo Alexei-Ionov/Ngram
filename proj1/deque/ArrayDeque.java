@@ -104,6 +104,18 @@ public class ArrayDeque<T> implements Deque<T> {
         int wrappingIndex = getNextFirst(nextFirst);
         return array[(wrappingIndex + index) % (array.length)];
     }
+    public boolean equals(Object o) {
+        Deque newO = (Deque) o;
+        if (size != newO.size()) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (this.get(i) != newO.get(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
     private boolean isFull() {
         return (size == array.length);
     }
@@ -132,7 +144,7 @@ public class ArrayDeque<T> implements Deque<T> {
         }
 
         public boolean hasNext() {
-            if (cnt > size()) {
+            if (cnt >= size()) {
                 return false;
             }
             return true;
@@ -143,6 +155,7 @@ public class ArrayDeque<T> implements Deque<T> {
             cnt += 1;
             return val;
         }
+
 
     }
 

@@ -133,11 +133,21 @@ public class LinkedListDeque<T> implements Deque<T> {
         return iter;
     }
 
-
+    public boolean equals(Object o) {
+        Deque newO = (Deque) o;
+        if (size != newO.size()) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (this.get(i) != newO.get(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
     private class linkedListIterator implements Iterator<T> {
         private Node iterNode;
         public linkedListIterator() {
-
             iterNode = sentinel.next;
         }
         public boolean hasNext() {

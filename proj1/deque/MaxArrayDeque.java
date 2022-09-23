@@ -1,14 +1,13 @@
-package  deque;
+package deque;
 import deque.ArrayDeque;
 import java.util.Comparator;
 
 public class MaxArrayDeque<T> extends ArrayDeque<T> {
-    private T[] maxArray;
+
     private int cnt;
     private Comparator<T> comp;
     public MaxArrayDeque(Comparator<T> c) {
         super();
-        maxArray = (T[]) new Object[8];
         cnt = 0;
         comp = c;
     }
@@ -17,10 +16,10 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
             return null;
         }
         int nextIndex = getNextFirst(nextFirst);
-        T currMax = maxArray[nextIndex];
+        T currMax = array[nextIndex];
         while (cnt <= size){
-            if (comp.compare(currMax, maxArray[nextIndex]) < 1) {
-                currMax = maxArray[nextIndex];
+            if (comp.compare(currMax, array[nextIndex]) < 1) {
+                currMax = array[nextIndex];
             }
             nextIndex = getNextFirst(nextIndex);
             cnt += 1;
@@ -33,10 +32,10 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
             return null;
         }
         int nextIndex = getNextFirst(nextFirst);
-        T currMax = maxArray[nextIndex];
+        T currMax = array[nextIndex];
         while (cnt <= size){
-            if (c.compare(currMax, maxArray[nextIndex]) < 1) {
-                currMax = maxArray[nextIndex];
+            if (c.compare(currMax, array[nextIndex]) < 1) {
+                currMax = array[nextIndex];
             }
             nextIndex = getNextFirst(nextIndex);
             cnt += 1;
