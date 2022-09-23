@@ -1,60 +1,39 @@
 package deque;
 import java.util.Comparator;
-
 public class MaxArrayDeque<T> extends ArrayDeque<T> {
-
-    private int cnt;
     private int size;
-    private int nextFirst;
-    private int nextLast;
     private T[] array;
     private Comparator<T> comp;
+    private int nextFirst;
+    private int nextLast;
     public MaxArrayDeque(Comparator<T> c) {
         super();
-        cnt = 0;
         comp = c;
     }
     public T max() {
-        if (this.array == null) {
-            return null;
-        }
         if (isEmpty()) {
             return null;
         }
-        int nextIndex = getNextFirst(nextFirst);
-        T currMax = array[nextIndex];
-        while (cnt < size) {
-            if (comp.compare(currMax, array[nextIndex]) < 1) {
-                currMax = array[nextIndex];
+        T currMax = get(0);
+        for (int cnt = 1; cnt < size(); cnt++) {
+            T nextVal = get(cnt);
+            if ((comp.compare(currMax, nextVal) < 1)) {
+                currMax = nextVal;
             }
-            nextIndex = getNextFirst(nextIndex);
-            cnt += 1;
         }
         return currMax;
-
     }
     public T max(Comparator<T> c) {
-        if (this.array == null) {
-            return null;
-        }
         if (isEmpty()) {
             return null;
         }
-        int nextIndex = getNextFirst(nextFirst);
-        T currMax = array[nextIndex];
-        while (cnt < size) {
-            if (c.compare(currMax, array[nextIndex]) < 1) {
-                currMax = array[nextIndex];
+        T currMax = get(0);
+        for (int cnt = 1; cnt < size(); cnt++) {
+            T nextVal = get(cnt);
+            if ((c.compare(currMax, nextVal) < 1)) {
+                currMax = nextVal;
             }
-            nextIndex = getNextFirst(nextIndex);
-            cnt += 1;
         }
         return currMax;
-
-
     }
-    private int getNextFirst(int i) {
-        return (i + 1) % (array.length);
-    }
-
 }

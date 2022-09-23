@@ -1,24 +1,26 @@
 package deque;
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T> {
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private int size;
     private int nextFirst;
     private int nextLast;
     private int capacity;
     private T[] array;
     private int minIntForResize;
+    public static final int initialSize = 100;
+    public static final int botVal = 4;
+
+
     public ArrayDeque() {
-        capacity = 8;
-        array = (T[]) new Object[capacity];
+        array = (T[]) new Object[initialSize];
         size = 0;
         nextFirst = array.length / 2;
         nextLast = nextFirst + 1;
     }
     private void resize(int newSize) {
         T[] newArray = (T[]) new Object[newSize];
-        int val = 4;
-        int newStartingPos = newSize / val;
+        int newStartingPos = newSize / botVal;
         int wrappingIndex = getNextFirst(nextFirst);
         for (int j = newStartingPos; j < (size + newStartingPos); j++) {
             newArray[j] = array[wrappingIndex];
