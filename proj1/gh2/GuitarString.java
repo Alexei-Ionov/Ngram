@@ -30,5 +30,7 @@ public class GuitarString {
         buffer.addLast(val);
     }
     public double sample() {
-        return buffer.get(0); }
+        return buffer.get(0);
     }
+}
+
