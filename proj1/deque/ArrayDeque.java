@@ -1,26 +1,24 @@
 package deque;
-
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T> {
     private int size;
     private int nextFirst;
     private int nextLast;
-
+    private int capacity;
     private T[] array;
+    private int minIntForResize;
     public ArrayDeque() {
-        array = (T[]) new Object[8];
+        capacity = 8;
+        array = (T[]) new Object[capacity];
         size = 0;
         nextFirst = array.length / 2;
         nextLast = nextFirst + 1;
-        //the beauty of this: if nextFirst is never called, we know the first element will actually be at its position since
-        //it will be the last position for nextLast to reach!!!!
     }
     private void resize(int newSize) {
         T[] newArray = (T[]) new Object[newSize];
-        //double the array length. put the first "array" (which will be sorted) into the first half, then what is left will be what will be left to fill of the second half.
-        //for my first nextFirst, it will be off by one, so I need to bump it up.
-        int newStartingPos = newSize / 4;
+        int val = 4;
+        int newStartingPos = newSize / val;
         int wrappingIndex = getNextFirst(nextFirst);
         for (int j = newStartingPos; j < (size + newStartingPos); j++) {
             newArray[j] = array[wrappingIndex];
@@ -71,7 +69,7 @@ public class ArrayDeque<T> implements Deque<T> {
         if (isEmpty()) {
             return null;
         }
-        if ((array.length >= 16) && (!loadFactorChecker())) {
+        if ((array.length >= minIntForResize) && (!loadFactorChecker())) {
             resize(array.length / 2);
         }
         int indexToRemove = getNextFirst(nextFirst);
@@ -86,7 +84,7 @@ public class ArrayDeque<T> implements Deque<T> {
         if (isEmpty()) {
             return null;
         }
-        if ((array.length >= 16) && (!loadFactorChecker())) {
+        if ((array.length >= minIntForResize) && (!loadFactorChecker())) {
             resize(array.length / 2);
         }
         int indexToRemove = (nextLast - 1 + array.length) % (array.length);
@@ -142,14 +140,14 @@ public class ArrayDeque<T> implements Deque<T> {
         return (array.length - 1);
     }
     public Iterator<T> iterator() {
-        arrayIterator iter = new arrayIterator();
+        ArrayIterator iter = new ArrayIterator();
         return iter;
     }
-    private class arrayIterator implements Iterator<T> {
+    private class ArrayIterator implements Iterator<T> {
         private int pos;
         private int cnt;
 
-        public arrayIterator() {
+        public ArrayIterator() {
             pos = getNextFirst(nextFirst);
             //lets me track the amount of elements ive already gone thru
             cnt = 0;

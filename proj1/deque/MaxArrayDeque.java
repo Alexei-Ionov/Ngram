@@ -1,5 +1,4 @@
 package deque;
-import deque.ArrayDeque;
 import java.util.Comparator;
 
 public class MaxArrayDeque<T> extends ArrayDeque<T> {
@@ -16,12 +15,15 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
         comp = c;
     }
     public T max() {
+        if (this.array == null) {
+            return null;
+        }
         if (isEmpty()) {
             return null;
         }
         int nextIndex = getNextFirst(nextFirst);
         T currMax = array[nextIndex];
-        while (cnt < size){
+        while (cnt < size) {
             if (comp.compare(currMax, array[nextIndex]) < 1) {
                 currMax = array[nextIndex];
             }
@@ -31,13 +33,16 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
         return currMax;
 
     }
-    public T max(Comparator<T> c){
+    public T max(Comparator<T> c) {
+        if (this.array == null) {
+            return null;
+        }
         if (isEmpty()) {
             return null;
         }
         int nextIndex = getNextFirst(nextFirst);
         T currMax = array[nextIndex];
-        while (cnt < size){
+        while (cnt < size) {
             if (c.compare(currMax, array[nextIndex]) < 1) {
                 currMax = array[nextIndex];
             }
