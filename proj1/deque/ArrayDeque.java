@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T> {
     public int size;
     public int nextFirst;
     public int nextLast;
@@ -30,6 +30,7 @@ public class ArrayDeque<T> {
         nextFirst = newStartingPos - 1;
         nextLast = size + newStartingPos;
     }
+    @Override
     public void addLast(T item) {
         if (isFull()) {
             resize(size * 2);
@@ -39,6 +40,7 @@ public class ArrayDeque<T> {
         //allows for clean circular motion of index --> end to front
         nextLast = (nextLast + 1) % (array.length);
     }
+    @Override
     public void addFirst(T item) {
         if (isFull()) {
             resize(size * 2);
@@ -54,6 +56,7 @@ public class ArrayDeque<T> {
         return (i + 1) % (array.length);
     }
 
+    @Override
     public void printDeque() {
         int wrappingIndex = getNextFirst(nextFirst);
         for (int j = 0; j < size; j++) {
@@ -63,7 +66,7 @@ public class ArrayDeque<T> {
         }
         System.out.println();
     }
-
+    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -78,6 +81,7 @@ public class ArrayDeque<T> {
         nextFirst = indexToRemove;
         return val;
     }
+    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -92,6 +96,7 @@ public class ArrayDeque<T> {
         nextLast = indexToRemove;
         return val;
     }
+    @Override
     public T get(int index) {
         if ((isEmpty()) || (index >= array.length)) {
             return null;
@@ -99,22 +104,19 @@ public class ArrayDeque<T> {
         int wrappingIndex = getNextFirst(nextFirst);
         return array[(wrappingIndex + index) % (array.length)];
     }
-    public boolean isEmpty() {
-        return (size == 0);
-    }
     private boolean isFull() {
         return (size == array.length);
     }
     private boolean loadFactorChecker() {
         return (0.25 <= (float) size / array.length);
     }
+    @Override
     public int size() {
         return size;
     }
     private int getLastIndex() {
         return (array.length - 1);
     }
-
     public Iterator<T> iterator() {
         arrayIterator iter = new arrayIterator();
         return iter;

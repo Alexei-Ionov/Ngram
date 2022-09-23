@@ -6,10 +6,8 @@ import org.junit.Test;
 
 
 public class MaxarraydequeTests {
-
     @Test
     public void testMaxArray() {
-
 
 
 
