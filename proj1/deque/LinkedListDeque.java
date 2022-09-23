@@ -20,17 +20,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         sentinel = new Node(null, null, null);
         size = 0;
     }
-
-    // constructor in the case that input is not null!
-    /**
-    public LinkedListDeque(T x) {
-        sentinel = new Node(null, null, null);
-        sentinel.next = new Node(x, sentinel, sentinel);
-        sentinel.prev = sentinel.next;
-        size = 1;
-    }
-     */
-
     @Override
     public int size() {
         return size;
@@ -146,7 +135,7 @@ public class LinkedListDeque<T> implements Deque<T> {
             return false;
         }
         for (int i = 0; i < size; i++) {
-            if (this.get(i).equals(newO.get(i))) {
+            if (!(this.get(i).equals(newO.get(i)))) {
                 return false;
             }
         }
@@ -162,7 +151,10 @@ public class LinkedListDeque<T> implements Deque<T> {
             iterNode = sentinel.next;
         }
         public boolean hasNext() {
-            if (iterNode == sentinel) {
+            if (isEmpty()) {
+                return false;
+            }
+            else if (iterNode == sentinel) {
                 return false;
             }
             return true;
