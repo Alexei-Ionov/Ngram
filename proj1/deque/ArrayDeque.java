@@ -3,11 +3,11 @@ package deque;
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T> {
-    public int size;
-    public int nextFirst;
-    public int nextLast;
+    private int size;
+    private int nextFirst;
+    private int nextLast;
 
-    public T[] array;
+    private T[] array;
     public ArrayDeque() {
         array = (T[]) new Object[8];
         size = 0;
@@ -105,12 +105,24 @@ public class ArrayDeque<T> implements Deque<T> {
         return array[(wrappingIndex + index) % (array.length)];
     }
     public boolean equals(Object o) {
+        if (!(o instanceof Deque<?>)) {
+            return false;
+        }
         Deque newO = (Deque) o;
+        if ((isEmpty()) && ((Deque<?>) o).isEmpty()) {
+            return true;
+        }
+        if ((isEmpty()) && !((Deque<?>) o).isEmpty()) {
+            return false;
+        }
+        if ((((Deque<?>) o).isEmpty()) && !isEmpty()) {
+            return false;
+        }
         if (size != newO.size()) {
             return false;
         }
         for (int i = 0; i < size; i++) {
-            if (this.get(i) != newO.get(i)) {
+            if (this.get(i).equals(newO.get(i))) {
                 return false;
             }
         }

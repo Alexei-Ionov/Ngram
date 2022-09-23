@@ -128,22 +128,33 @@ public class LinkedListDeque<T> implements Deque<T> {
         Node head = sentinel.next;
         return getRecursionHelperFn(index, head);
     }
-    public Iterator<T> iterator() {
-        linkedListIterator iter = new linkedListIterator();
-        return iter;
-    }
-
     public boolean equals(Object o) {
+        if (!(o instanceof Deque<?>)) {
+            return false;
+        }
         Deque newO = (Deque) o;
+        if ((isEmpty()) && ((Deque<?>) o).isEmpty()) {
+            return true;
+        }
+        if ((isEmpty()) && !((Deque<?>) o).isEmpty()) {
+            return false;
+        }
+        if ((((Deque<?>) o).isEmpty()) && !isEmpty()) {
+            return false;
+        }
         if (size != newO.size()) {
             return false;
         }
         for (int i = 0; i < size; i++) {
-            if (this.get(i) != newO.get(i)) {
+            if (this.get(i).equals(newO.get(i))) {
                 return false;
             }
         }
         return true;
+    }
+    public Iterator<T> iterator() {
+        linkedListIterator iter = new linkedListIterator();
+        return iter;
     }
     private class linkedListIterator implements Iterator<T> {
         private Node iterNode;
@@ -151,7 +162,7 @@ public class LinkedListDeque<T> implements Deque<T> {
             iterNode = sentinel.next;
         }
         public boolean hasNext() {
-            if (iterNode == null) {
+            if (iterNode == sentinel) {
                 return false;
             }
             return true;

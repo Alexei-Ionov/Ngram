@@ -18,7 +18,7 @@ public class GuitarString {
         //       cast the result of this division operation into an int. For
         //       better accuracy, use the Math.round() function before casting.
         //       Your should initially fill your buffer array with zeros.
-        buffer = (T[]) new Object[8];
+
 
     }
 
