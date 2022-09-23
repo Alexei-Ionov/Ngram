@@ -1,10 +1,13 @@
 package deque;
-public class ArrayDeque<T> {
-    private int size;
-    private int nextFirst;
-    private int nextLast;
 
-    private T[] array;
+import java.util.Iterator;
+
+public class ArrayDeque<T> implements Deque<T> {
+    public int size;
+    public int nextFirst;
+    public int nextLast;
+
+    public T[] array;
     public ArrayDeque() {
         array = (T[]) new Object[8];
         size = 0;
@@ -19,7 +22,7 @@ public class ArrayDeque<T> {
         //for my first nextFirst, it will be off by one, so I need to bump it up.
         int newStartingPos = newSize / 4;
         int wrappingIndex = getNextFirst(nextFirst);
-        for (int j = newStartingPos; j < (size + newStartingPos); j++){
+        for (int j = newStartingPos; j < (size + newStartingPos); j++) {
             newArray[j] = array[wrappingIndex];
             wrappingIndex = getNextFirst(wrappingIndex);
         }
@@ -27,8 +30,9 @@ public class ArrayDeque<T> {
         nextFirst = newStartingPos - 1;
         nextLast = size + newStartingPos;
     }
+    @Override
     public void addLast(T item) {
-        if (isFull()){
+        if (isFull()) {
             resize(size * 2);
         }
         array[nextLast] = item;
@@ -36,8 +40,9 @@ public class ArrayDeque<T> {
         //allows for clean circular motion of index --> end to front
         nextLast = (nextLast + 1) % (array.length);
     }
+    @Override
     public void addFirst(T item) {
-        if (isFull()){
+        if (isFull()) {
             resize(size * 2);
         }
         array[nextFirst] = item;
@@ -51,18 +56,19 @@ public class ArrayDeque<T> {
         return (i + 1) % (array.length);
     }
 
+    @Override
     public void printDeque() {
         int wrappingIndex = getNextFirst(nextFirst);
-        for (int j = 0; j < size; j++){
+        for (int j = 0; j < size; j++) {
             System.out.print(array[wrappingIndex] + " ");
             //gets me the next first index --> this way i will unfold the array... so to speak
             wrappingIndex = getNextFirst(wrappingIndex);
         }
         System.out.println();
     }
-
+    @Override
     public T removeFirst() {
-        if (isEmpty()){
+        if (isEmpty()) {
             return null;
         }
         if ((array.length >= 16) && (!loadFactorChecker())) {
@@ -75,6 +81,7 @@ public class ArrayDeque<T> {
         nextFirst = indexToRemove;
         return val;
     }
+    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -89,6 +96,7 @@ public class ArrayDeque<T> {
         nextLast = indexToRemove;
         return val;
     }
+    @Override
     public T get(int index) {
         if ((isEmpty()) || (index >= array.length)) {
             return null;
@@ -96,20 +104,60 @@ public class ArrayDeque<T> {
         int wrappingIndex = getNextFirst(nextFirst);
         return array[(wrappingIndex + index) % (array.length)];
     }
-    public boolean isEmpty() {
-        return (size ==0);
+    public boolean equals(Object o) {
+        Deque newO = (Deque) o;
+        if (size != newO.size()) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (this.get(i) != newO.get(i)) {
+                return false;
+            }
+        }
+        return true;
     }
     private boolean isFull() {
         return (size == array.length);
     }
     private boolean loadFactorChecker() {
-        return (0.25 <= (float)size/array.length);
+        return (0.25 <= (float) size / array.length);
     }
+    @Override
     public int size() {
         return size;
     }
     private int getLastIndex() {
         return (array.length - 1);
     }
+    public Iterator<T> iterator() {
+        arrayIterator iter = new arrayIterator();
+        return iter;
     }
+    private class arrayIterator implements Iterator<T> {
+        private int pos;
+        private int cnt;
+
+        public arrayIterator() {
+            pos = getNextFirst(nextFirst);
+            //lets me track the amount of elements ive already gone thru
+            cnt = 0;
+        }
+
+        public boolean hasNext() {
+            if (cnt >= size()) {
+                return false;
+            }
+            return true;
+        }
+        public T next() {
+            T val = array[pos];
+            pos = getNextFirst(pos);
+            cnt += 1;
+            return val;
+        }
+
+
+    }
+
+}
 
