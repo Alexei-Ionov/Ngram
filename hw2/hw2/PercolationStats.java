@@ -6,11 +6,13 @@ public class PercolationStats {
     private double meanVal;
     private int percolationValuesLength;
     private double std;
+    private int numOfCells;
 
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException();
         }
+        numOfCells = N*N;
         percolationValues = new int[T];
         for (int i = 0; i < T; i++) {
             Percolation newPercolation = pf.make(N);
@@ -21,14 +23,12 @@ public class PercolationStats {
                 newPercolation.open(row, col);
                 cnt += 1;
             }
-            percolationValues[i] = cnt;
+            percolationValues[i] = cnt / numOfCells;
         }
         percolationValuesLength = T;
         meanVal = mean();
         std = stddev();
     }
-
-    /// WATCH FOR FLOOR DIVISION __> FIXX!!!
 
     public double mean() {
         double sum = 0;
