@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
     private boolean[][] matrix;
     private WeightedQuickUnionUF rootArr;
+    private WeightedQuickUnionUF backwashArr;
     private int topSiteIndex;
     private int botSiteIndex;
     private int numOpen;
@@ -15,6 +16,8 @@ public class Percolation {
         }
         // + 2 for top and bottom sites!
         rootArr = new WeightedQuickUnionUF((N*N) + 2);
+        //does not have a bottom site
+        backwashArr = new WeightedQuickUnionUF((N*N) + 1);
         matrix = new boolean[N][N];
         topSiteIndex = N*N;
         botSiteIndex = N*N + 1;
@@ -29,13 +32,6 @@ public class Percolation {
     private int matrixToUnionIndex(int row, int col) {
         return (row * matrix.length) + col;
     }
-    private int[] unionToMatrixIndex(int index) {
-        int row = Math.floorDiv(index, matrix.length);
-        int col = index % matrix.length;
-        int[] res = new int[]{row, col};
-        return res;
-
-    }
     public void open(int row, int col) {
         if (!isOpen(row, col)) {
             matrix[row][col] = true;
@@ -44,25 +40,31 @@ public class Percolation {
             //top row
             if (row == 0) {
                 rootArr.union(rootIndex1, topSiteIndex);
-
+                backwashArr.union(rootIndex1, topSiteIndex);
             }
             //bot row
             if (row == matrix.length - 1) {
-                if (isFull(row - 1, col)) {
-                    rootArr.union(rootIndex1, botSiteIndex);
-                }
+                rootArr.union(rootIndex1, botSiteIndex);
+
             }
             if ((row + 1 < matrix.length) && (isOpen(row + 1, col))) {
                 rootArr.union(rootIndex1, matrixToUnionIndex(row + 1,col));
+                backwashArr.union(rootIndex1, matrixToUnionIndex(row + 1,col));
+
             }
             if ((col - 1 >= 0) && (isOpen(row, col - 1))) {
                 rootArr.union(rootIndex1, matrixToUnionIndex(row,col - 1));
+                backwashArr.union(rootIndex1, matrixToUnionIndex(row,col - 1));
+
             }
             if ((row - 1 >= 0) && (isOpen(row-1, col))) {
                 rootArr.union(rootIndex1, matrixToUnionIndex(row-1,col));
+                backwashArr.union(rootIndex1, matrixToUnionIndex(row-1,col));
+
             }
             if ((col + 1 < matrix.length) && (isOpen(row, col + 1))) {
                 rootArr.union(rootIndex1, matrixToUnionIndex(row,col + 1));
+                backwashArr.union(rootIndex1, matrixToUnionIndex(row,col + 1));
             }
         }
     }
@@ -71,7 +73,7 @@ public class Percolation {
     }
     public boolean isFull(int row, int col) {
         int index = matrixToUnionIndex(row, col);
-        return rootArr.connected(index, topSiteIndex);
+        return ((isOpen(row, col)) && (rootArr.connected(index, topSiteIndex) == backwashArr.connected(index, topSiteIndex)));
     }
     public int numberOfOpenSites() {
         return numOpen;
