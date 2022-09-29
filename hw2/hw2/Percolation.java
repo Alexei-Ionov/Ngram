@@ -48,7 +48,7 @@ public class Percolation {
             }
             //bot row
             if (row == matrix.length - 1) {
-                if (!percolates()) {
+                if ((!percolates()) && isFull(row-1, col)) {
                     rootArr.union(rootIndex1, botSiteIndex);
                 }
             }
