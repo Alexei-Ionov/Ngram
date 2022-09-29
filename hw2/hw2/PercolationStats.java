@@ -40,6 +40,6 @@ public class PercolationStats {
     }
     public double confidenceHigh() {
         double sqT = Math.pow(percolationValuesLength, 0.5);
-        return (mean() + (double)((1.96 * stddev()g) / sqT));
+        return (mean() + (double)((1.96 * stddev()) / sqT));
     }
 }
