@@ -73,7 +73,11 @@ public class Percolation {
     }
     public boolean isFull(int row, int col) {
         int index = matrixToUnionIndex(row, col);
-        return ((isOpen(row, col)) && (rootArr.connected(index, topSiteIndex) == backwashArr.connected(index, topSiteIndex)));
+        if (percolates()) {
+            return ((isOpen(row, col)) && backwashArr.connected(index, topSiteIndex));
+
+        }
+        return ((isOpen(row, col)) && (rootArr.connected(index, topSiteIndex)));
     }
     public int numberOfOpenSites() {
         return numOpen;
