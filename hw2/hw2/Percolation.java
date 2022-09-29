@@ -36,7 +36,9 @@ public class Percolation {
             int rootIndex1 = matrixToUnionIndex(row, col);
             //top row
             if (row == 0) {
-                rootArr.union(rootIndex1, topSiteIndex);
+                if (!percolates()) {
+                    rootArr.union(rootIndex1, topSiteIndex);
+                }
             }
             //bot row
             if (row == matrix.length - 1) {
