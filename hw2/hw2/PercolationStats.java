@@ -4,10 +4,7 @@ import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
     private double[] percolationValues;
-
-    private double meanVal;
     private int percolationValuesLength;
-    private double std;
     private int numOfCells;
 
     private Percolation newPercolation;
@@ -29,8 +26,6 @@ public class PercolationStats {
             percolationValues[i] = (double)(newPercolation.numberOfOpenSites() / numOfCells);
         }
         percolationValuesLength = T;
-        meanVal = mean();
-        std = stddev();
     }
 
     public double mean() {
@@ -41,10 +36,10 @@ public class PercolationStats {
     }
     public double confidenceLow() {
         double sqT = Math.pow(percolationValuesLength, 0.5);
-        return (meanVal - ((double)((1.96 * std) / sqT)));
+        return (mean() - ((double)((1.96 * stddev()) / sqT)));
     }
     public double confidenceHigh() {
         double sqT = Math.pow(percolationValuesLength, 0.5);
-        return (meanVal + (double)((1.96 * std) / sqT));
+        return (mean() + (double)((1.96 * stddev()g) / sqT));
     }
 }
