@@ -54,7 +54,7 @@ public class Percolation {
                 backwashArr.union(rootIndex1, matrixToUnionIndex(row, col - 1));
 
             }
-            if ((row - 1 >= 0) && (isOpen(row-1, col))) {
+            if ((row - 1 >= 0) && (isOpen(row - 1, col))) {
                 rootArr.union(rootIndex1, matrixToUnionIndex(row - 1, col));
                 backwashArr.union(rootIndex1, matrixToUnionIndex(row - 1, col));
 
