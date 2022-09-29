@@ -29,6 +29,13 @@ public class Percolation {
     private int matrixToUnionIndex(int row, int col) {
         return (row * matrix.length) + col;
     }
+    private int[] unionToMatrixIndex(int index) {
+        int row = Math.floorDiv(index, matrix.length);
+        int col = index % matrix.length;
+        int[] res = new int[]{row, col};
+        return res;
+
+    }
     public void open(int row, int col) {
         if (!isOpen(row, col)) {
             matrix[row][col] = true;
@@ -36,9 +43,8 @@ public class Percolation {
             int rootIndex1 = matrixToUnionIndex(row, col);
             //top row
             if (row == 0) {
-                if (!percolates()) {
-                    rootArr.union(rootIndex1, topSiteIndex);
-                }
+                rootArr.union(rootIndex1, topSiteIndex);
+
             }
             //bot row
             if (row == matrix.length - 1) {

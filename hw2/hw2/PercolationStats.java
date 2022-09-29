@@ -28,6 +28,8 @@ public class PercolationStats {
         std = stddev();
     }
 
+    /// WATCH FOR FLOOR DIVISION __> FIXX!!!
+
     public double mean() {
         double sum = 0;
         for (int i = 0; i < percolationValuesLength; i++) {
