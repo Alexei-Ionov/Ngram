@@ -50,7 +50,7 @@ public class Percolation {
             if (row == matrix.length - 1) {
                 if (isFull(row - 1, col)) {
                     rootArr.union(rootIndex1, botSiteIndex);
-                }g
+                }
             }
             if ((row + 1 < matrix.length) && (isOpen(row + 1, col))) {
                 rootArr.union(rootIndex1, matrixToUnionIndex(row + 1,col));
