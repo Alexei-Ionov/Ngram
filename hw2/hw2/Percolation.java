@@ -10,17 +10,16 @@ public class Percolation {
     private int botSiteIndex;
     private int numOpen;
     public Percolation(int N) {
-        /// in my matrix, 0s represent blocked cells, 1s represent open, 2s represent open + full
         if (N <= 0 ) {
             throw new IllegalArgumentException();
         }
         // + 2 for top and bottom sites!
-        rootArr = new WeightedQuickUnionUF((N*N) + 2);
+        rootArr = new WeightedQuickUnionUF((N * N) + 2);
         //does not have a bottom site
-        backwashArr = new WeightedQuickUnionUF((N*N) + 1);
+        backwashArr = new WeightedQuickUnionUF((N * N) + 1);
         matrix = new boolean[N][N];
-        topSiteIndex = N*N;
-        botSiteIndex = N*N + 1;
+        topSiteIndex = N * N;
+        botSiteIndex = (N * N) + 1;
         numOpen = 0;
 
         for (int i = 0; i < matrix.length; i++) {
@@ -48,8 +47,8 @@ public class Percolation {
 
             }
             if ((row + 1 < matrix.length) && (isOpen(row + 1, col))) {
-                rootArr.union(rootIndex1, matrixToUnionIndex(row + 1,col));
-                backwashArr.union(rootIndex1, matrixToUnionIndex(row + 1,col));
+                rootArr.union(rootIndex1, matrixToUnionIndex(row + 1, col));
+                backwashArr.union(rootIndex1, matrixToUnionIndex(row + 1, col));
 
             }
             if ((col - 1 >= 0) && (isOpen(row, col - 1))) {
@@ -58,8 +57,8 @@ public class Percolation {
 
             }
             if ((row - 1 >= 0) && (isOpen(row-1, col))) {
-                rootArr.union(rootIndex1, matrixToUnionIndex(row-1,col));
-                backwashArr.union(rootIndex1, matrixToUnionIndex(row-1,col));
+                rootArr.union(rootIndex1, matrixToUnionIndex(row - 1, col));
+                backwashArr.union(rootIndex1, matrixToUnionIndex(row - 1, col));
 
             }
             if ((col + 1 < matrix.length) && (isOpen(row, col + 1))) {
