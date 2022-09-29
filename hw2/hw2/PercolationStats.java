@@ -23,7 +23,8 @@ public class PercolationStats {
                 int col = StdRandom.uniform(N);
                 newPercolation.open(row, col);
             }
-            percolationValues[i] = (double)(newPercolation.numberOfOpenSites() / numOfCells);
+            double val = (double)newPercolation.numberOfOpenSites() / numOfCells;
+            percolationValues[i] = val;
         }
         percolationValuesLength = T;
     }
@@ -36,10 +37,10 @@ public class PercolationStats {
     }
     public double confidenceLow() {
         double sqT = Math.pow(percolationValuesLength, 0.5);
-        return (mean() - ((double)((1.96 * stddev()) / sqT)));
+        return mean() - (double)((1.96 * stddev()) / sqT);
     }
     public double confidenceHigh() {
         double sqT = Math.pow(percolationValuesLength, 0.5);
-        return (mean() + (double)((1.96 * stddev()) / sqT));
+        return mean() + (double)((1.96 * stddev()) / sqT);
     }
 }
