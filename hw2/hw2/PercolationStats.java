@@ -16,14 +16,13 @@ public class PercolationStats {
         percolationValues = new double[T];
         for (int i = 0; i < T; i++) {
             Percolation newPercolation = pf.make(N);
-            int cnt = 0;
             while (!newPercolation.percolates()) {
                 int row = StdRandom.uniform(N);
                 int col = StdRandom.uniform(N);
                 newPercolation.open(row, col);
-                cnt += 1;
+
             }
-            percolationValues[i] = (double)(cnt / numOfCells);
+            percolationValues[i] = (double)(newPercolation.numberOfOpenSites() / numOfCells);
         }
         percolationValuesLength = T;
         meanVal = mean();
