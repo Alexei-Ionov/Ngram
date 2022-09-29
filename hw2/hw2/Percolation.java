@@ -34,11 +34,15 @@ public class Percolation {
             matrix[row][col] = true;
             numOpen += 1;
             int rootIndex1 = matrixToUnionIndex(row, col);
+            //top row
             if (row == 0) {
                 rootArr.union(rootIndex1, topSiteIndex);
             }
+            //bot row
             if (row == matrix.length - 1) {
-                rootArr.union(rootIndex1, botSiteIndex);
+                if (!percolates()) {
+                    rootArr.union(rootIndex1, botSiteIndex);
+                }
             }
             if ((row + 1 < matrix.length) && (isOpen(row + 1, col))) {
                 rootArr.union(rootIndex1, matrixToUnionIndex(row + 1,col));
