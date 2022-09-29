@@ -1,7 +1,5 @@
 package hw2;
-
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-
 public class Percolation {
     private boolean[][] matrix;
     private WeightedQuickUnionUF rootArr;
@@ -10,7 +8,7 @@ public class Percolation {
     private int botSiteIndex;
     private int numOpen;
     public Percolation(int N) {
-        if (N <= 0 ) {
+        if (N <= 0) {
             throw new IllegalArgumentException();
         }
         // + 2 for top and bottom sites!
@@ -52,8 +50,8 @@ public class Percolation {
 
             }
             if ((col - 1 >= 0) && (isOpen(row, col - 1))) {
-                rootArr.union(rootIndex1, matrixToUnionIndex(row,col - 1));
-                backwashArr.union(rootIndex1, matrixToUnionIndex(row,col - 1));
+                rootArr.union(rootIndex1, matrixToUnionIndex(row, col - 1));
+                backwashArr.union(rootIndex1, matrixToUnionIndex(row, col - 1));
 
             }
             if ((row - 1 >= 0) && (isOpen(row-1, col))) {
@@ -62,8 +60,8 @@ public class Percolation {
 
             }
             if ((col + 1 < matrix.length) && (isOpen(row, col + 1))) {
-                rootArr.union(rootIndex1, matrixToUnionIndex(row,col + 1));
-                backwashArr.union(rootIndex1, matrixToUnionIndex(row,col + 1));
+                rootArr.union(rootIndex1, matrixToUnionIndex(row, col + 1));
+                backwashArr.union(rootIndex1, matrixToUnionIndex(row, col + 1));
             }
         }
     }
