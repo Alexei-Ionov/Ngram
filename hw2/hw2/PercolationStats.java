@@ -1,7 +1,7 @@
 package hw2;
 import edu.princeton.cs.algs4.StdRandom;
 public class PercolationStats {
-    private int[] percolationValues;
+    private double[] percolationValues;
 
     private double meanVal;
     private int percolationValuesLength;
@@ -13,7 +13,7 @@ public class PercolationStats {
             throw new IllegalArgumentException();
         }
         numOfCells = N*N;
-        percolationValues = new int[T];
+        percolationValues = new double[T];
         for (int i = 0; i < T; i++) {
             Percolation newPercolation = pf.make(N);
             int cnt = 0;
@@ -23,7 +23,7 @@ public class PercolationStats {
                 newPercolation.open(row, col);
                 cnt += 1;
             }
-            percolationValues[i] = cnt / numOfCells;
+            percolationValues[i] = (double)(cnt / numOfCells);
         }
         percolationValuesLength = T;
         meanVal = mean();
@@ -35,7 +35,7 @@ public class PercolationStats {
         for (int i = 0; i < percolationValuesLength; i++) {
             sum += percolationValues[i];
         }
-        return sum / percolationValuesLength;
+        return (double)sum / percolationValuesLength;
     }
 
     public double stddev() {
@@ -43,15 +43,15 @@ public class PercolationStats {
         for (int i = 0; i < percolationValuesLength; i++) {
             sum += Math.pow((percolationValues[i] - meanVal), 2);
         }
-        double sdSqared = sum / (percolationValuesLength - 1);
+        double sdSqared = (double)(sum / (percolationValuesLength - 1));
         return Math.pow(sdSqared, 0.5);
     }
     public double confidenceLow() {
         double sqT = Math.pow(percolationValuesLength, 0.5);
-        return (meanVal - ((1.96 * std) / sqT));
+        return (meanVal - ((double)((1.96 * std) / sqT)));
     }
     public double confidenceHigh() {
         double sqT = Math.pow(percolationValuesLength, 0.5);
-        return (meanVal + ((1.96 * std) / sqT));
+        return (meanVal + (double)((1.96 * std) / sqT));
     }
 }
