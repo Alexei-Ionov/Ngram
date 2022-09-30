@@ -165,6 +165,4 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             return val;
         }
     }
-
 }
-
