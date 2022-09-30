@@ -8,23 +8,23 @@ A:
 
 Q: What's something you felt proud of in your code, if anything?
 
-A:
+A: I was proud of the simplicity and readibility of the majority of my code (excluding the iterator and equals method).
 
 Q: What's something that was particularly inelegant in your code, if anything?
 
-A:
+A: I felt like my Equals method for both my arrayDeque and LinkedListDeque was inelegant.
 
 Q: What did you learn by talking to your partner about writing ArrayDeque?
 
-A:
+A: I learned that there are multiple ways to implement the code, some which I would have never thought of.
 
 Q: What do you wish you would have known before writing ArrayDeque, if anything?
 
-A:
+A: That I wasn't the only one super confused on it.
 
 Q: If you wrote ArrayDeque again, what would you do differently, if anything?
 
-A:
+A: I would probably keep it the same.
 
 -----
 
@@ -36,23 +36,23 @@ A:
 
 Q: What's something you felt proud of in your code, if anything?
 
-A:
+A: Similar to the ArrayDeque I was proud of my readibiilty and easy-to-understand code.
 
 Q: What's something that was particularly inelegant in your code, if anything?
 
-A:
+A: Again, my iterator and Equals method were very inelegant.
 
 Q: What did you learn by talking to your partner about writing LinkedListDeque?
 
-A:
+A: I learned that there were different, yet still very similar ways, to implement this Deque.
 
 Q: What do you wish you would have known before writing LinkedListDeque, if anything?
 
-A:
+A: I would use the java visualizer to get a better understanding of it before actually tackling the code.
 
 Q: If you wrote LinkedListDeque again, what would you do differently, if anything?
 
-A:
+A: I would keep it the same, but change my Equals method to make it keep it shorter (in a good way) and easier to read.
 
 -----
 
@@ -60,4 +60,4 @@ Meta:
 
 Q: Did you like this design review process? Anything we should do differently next time?
 
-A: 
+A: Was fine, nothing should be changed.
