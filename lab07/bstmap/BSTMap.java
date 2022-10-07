@@ -86,7 +86,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K,V> {
         if (comparatorVal < 0) {
             root.left = putHelper(root.left, key, value);
         } else if (comparatorVal > 0) {
-            root.right = putHelper(root.left, key, value);
+            root.right = putHelper(root.right, key, value);
         }
         return root;
     }
@@ -102,7 +102,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K,V> {
     public Set<K> keySet() {
         throw new UnsupportedOperationException();
     }
-    public K iterator() {
+    public Iterator<K> iterator() {
         throw new UnsupportedOperationException();
     }
 }
