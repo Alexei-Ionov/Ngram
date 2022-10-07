@@ -17,21 +17,24 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K,V> {
         }
     }
     private Node root;
+    private int height;
     public BSTMap() {
-        root = null;
+        root = new Node(null, null);
+        height = 0;
     }
     @Override
     public int size() {
         if (root == null) {
             return 0;
         }
-        return root.size;
+        return height;
     }
     private boolean isEmpty() {
-        return root.size == 0;
+        return height == 0;
     }
     @Override
     public void clear() {
+        height = 0;
         root = null;
     }
     @Override
@@ -75,6 +78,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K,V> {
             nodeOfInterest.val = value;
         }
         else {
+            height += 1;
             putHelper(root, key, value);
         }
     }
@@ -89,6 +93,8 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K,V> {
             root.right = putHelper(root.right, key, value);
         }
         return root;
+    }
+    public void printInOrder() {
     }
     @Override
     public V remove(K key) {
