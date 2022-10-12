@@ -25,6 +25,9 @@ public class NGramMap {
         //order in wordsFile is Word(String) --> Year(Integer) --> Count(Double) --> unnecessary
         In in = new In(wordsFilename);
         while (in.hasNextLine()) {
+            if (in.isEmpty()) {
+                break;
+            }
             String word = in.readString();
             Integer year = in.readInt();
             Integer count = in.readInt();
@@ -40,24 +43,12 @@ public class NGramMap {
         //for countsFile each next produces a string containting all the information ex; "1470,984,10,1"
         In inCount = new In(countsFilename);
         while (inCount.hasNextLine()) {
-            String line = inCount.readLine();
-            //Integer.parseInt()
-            String currentString = "";
-            int cnt = 0;
-            String[] yearAndCount = new String[2];
-            for (int i = 0; i < line.length(); i ++) {
-                if (line.charAt(i) == ',') {
-                    yearAndCount[cnt] = currentString;
-                    currentString = "";
-                    cnt += 1;
-                } else {
-                    currentString += line.charAt(i);
-                }
-                if (cnt == 2) {
-                    break;
-                }
+            if (inCount.isEmpty()) {
+                break;
             }
-            countMap.put(Integer.parseInt(yearAndCount[0]), (double) Long.parseLong(yearAndCount[1]));
+            String line = inCount.readLine();
+            String[] strings = line.split("[,]+");
+            countMap.put(Integer.parseInt(strings[0]), (double) (Long.parseLong(strings[1])));
         }
     }
 

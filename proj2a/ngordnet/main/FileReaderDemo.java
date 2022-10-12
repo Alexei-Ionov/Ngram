@@ -15,14 +15,16 @@ public class FileReaderDemo {
 
         /* Compare the calls below to the contents of ./ngordnet/main/example_input_file.txt */
 
-        int firstItemInFile = in.readInt();
-        double secondItemInFile = in.readDouble();
-        String thirdItemInFile = in.readString();
-        String fourthItemInFile = in.readString();
-        double fifthItemInFile = in.readDouble();
-
-        System.out.println("The file contained "  + firstItemInFile + ", " +
-                secondItemInFile + ", " + thirdItemInFile + ", " +
-                fourthItemInFile + ", and " + fifthItemInFile);
+        while (in.hasNextLine()) {
+            if (in.isEmpty()) {
+                break;
+            }
+            String word = in.readString();
+            Integer year = in.readInt();
+            Integer count = in.readInt();
+            in.readInt(); //useless column
+            System.out.println("The line contained " + word + ", " + year + ", " + count);
+        }
     }
 }
+
