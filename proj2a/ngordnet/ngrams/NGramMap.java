@@ -37,15 +37,28 @@ public class NGramMap {
             val.put(year, (double) count);
         }
         //order in countFile is Year(Integer) --> total number of words recorded (Double)
+        //for countsFile each next produces a string containting all the information ex; "1470,984,10,1"
         In inCount = new In(countsFilename);
-        while (in.hasNextLine()) {
-            Integer year = inCount.readInt();
-            Integer count = inCount.readInt();
-            inCount.readInt();
-            inCount.readInt();
-            countMap.put(year, (double) count);
+        while (inCount.hasNextLine()) {
+            String line = inCount.readLine();
+            //Integer.parseInt()
+            String currentString = "";
+            int cnt = 0;
+            String[] yearAndCount = new String[2];
+            for (int i = 0; i < line.length(); i ++) {
+                if (line.charAt(i) == ',') {
+                    yearAndCount[cnt] = currentString;
+                    currentString = "";
+                    cnt += 1;
+                } else {
+                    currentString += line.charAt(i);
+                }
+                if (cnt == 2) {
+                    break;
+                }
+            }
+            countMap.put(Integer.parseInt(yearAndCount[0]), (double) Long.parseLong(yearAndCount[1]));
         }
-
     }
 
     /** Provides the history of WORD. The returned TimeSeries should be a copy,
@@ -128,7 +141,6 @@ public class NGramMap {
         }
         return res;
     }
-
 
     /** Provides the summed relative frequency per year of all words in WORDS
      *  between STARTYEAR and ENDYEAR, inclusive of both ends. If a word does not exist in
