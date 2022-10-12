@@ -30,5 +30,4 @@ public class HistoryHandler extends NgordnetQueryHandler {
         String encodedImage = Plotter.encodeChartAsString(chart);
         return encodedImage;
     }
-
 }
