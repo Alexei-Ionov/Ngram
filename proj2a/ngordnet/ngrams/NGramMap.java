@@ -53,20 +53,14 @@ public class NGramMap {
      *  to the object returned by this function should not also affect the
      *  NGramMap. This is also known as a "defensive copy". */
     public TimeSeries countHistory(String word) {
-       return helperMethod(word, 0, 0, 0);
+       return countHelperMethod(word, 0, 0, 0);
     }
 
-    private TimeSeries helperMethod(String word, int startYear, int endYear, int val) {
+    private TimeSeries countHelperMethod(String word, int startYear, int endYear, int val) {
         TimeSeries map = (TimeSeries) wordMap.get(word);
         TimeSeries res = new TimeSeries();
         for (Integer year : map.keySet()) {
-            // gets called only for Count History  with no start and end date
-            if (val == 0) {
-                res.put(year, map.get(year));
-                continue;
-            }
-            // gets called only for countHistory with start and end date
-            if (year >= startYear && year <= endYear) {
+            if ((val == 0) || (year >= startYear && year <= endYear)) {
                 res.put(year, map.get(year));
             }
         }
@@ -78,7 +72,7 @@ public class NGramMap {
      *  changes made to the object returned by this function should not also affect the
      *  NGramMap. This is also known as a "defensive copy". */
     public TimeSeries countHistory(String word, int startYear, int endYear) {
-        return helperMethod(word, startYear, endYear, 1);
+        return countHelperMethod(word, startYear, endYear, 1);
     }
 
     /** Returns a defensive copy of the total number of words recorded per year in all volumes. */
@@ -93,23 +87,31 @@ public class NGramMap {
     /** Provides a TimeSeries containing the relative frequency per year of WORD compared to
      *  all words recorded in that year. */
     public TimeSeries weightHistory(String word) {
-        TimeSeries res = new TimeSeries();
-        TimeSeries map = (TimeSeries) wordMap.get(word);
-        for (Integer year: map.keySet()) {
-            res.put(year, map.get(year) / countMap.get(year));
-        }
-        return res;
+        return weightHelperMethod(word, 0, 0 , 0);
     }
 
     /** Provides a TimeSeries containing the relative frequency per year of WORD between STARTYEAR
      *  and ENDYEAR, inclusive of both ends. */
     public TimeSeries weightHistory(String word, int startYear, int endYear) {
-        return null;
+        return weightHelperMethod(word, startYear, endYear, 1);
+    }
+    private TimeSeries weightHelperMethod(String word, int startYear, int endYear, int val) {
+        TimeSeries res = new TimeSeries();
+        TimeSeries map = (TimeSeries) wordMap.get(word);
+        for (Integer year : map.keySet()) {
+            if ((val == 0) || (year >= startYear && year <= endYear)) {
+                res.put(year, map.get(year) / countMap.get(year));
+            }
+        }
+        return res;
     }
 
     /** Returns the summed relative frequency per year of all words in WORDS. */
     public TimeSeries summedWeightHistory(Collection<String> words) {
-        return null;
+        TimeSeries res = new TimeSeries();
+        // year --> sum of freq of all words in that year
+        Double sum = 0.0;
+       
     }
 
     /** Provides the summed relative frequency per year of all words in WORDS
