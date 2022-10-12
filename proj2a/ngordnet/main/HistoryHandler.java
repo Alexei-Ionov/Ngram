@@ -16,14 +16,15 @@ public class HistoryHandler extends NgordnetQueryHandler {
     public HistoryHandler(NGramMap map) {
         ng = map;
     }
-
     @Override
     public String handle(NgordnetQuery q) {
         List<String> words = q.words();
         List<TimeSeries> timeMaps = new ArrayList<>();
         int index = 0;
+        int startYear = q.startYear();
+        int endYear = q.endYear();
         for (String word: words) {
-            timeMaps.add(index, ng.weightHistory(word));
+            timeMaps.add(index, ng.weightHistory(word, startYear, endYear));
             index += 1;
         }
         XYChart chart = Plotter.generateTimeSeriesChart(words, timeMaps);

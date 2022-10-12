@@ -16,8 +16,10 @@ public class HistoryTextHandler extends NgordnetQueryHandler {
     public String handle(NgordnetQuery q) {
         List<String> words = q.words();
         String response = "";
+        int startYear = q.startYear();
+        int endYear = q.endYear();
         for (String word : words) {
-            TimeSeries ts = ng.weightHistory(word);
+            TimeSeries ts = ng.weightHistory(word, startYear, endYear);
             response += word + ":" + " " + ts.toString() + "\n";
         }
         return response;
