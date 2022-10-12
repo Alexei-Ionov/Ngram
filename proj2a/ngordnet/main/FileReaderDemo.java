@@ -1,9 +1,7 @@
 package ngordnet.main;
-
 import edu.princeton.cs.algs4.In;
 
 /**
- * Created by hug.
  */
 public class FileReaderDemo {
     public static void main(String[] args) {

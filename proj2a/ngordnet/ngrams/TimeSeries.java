@@ -37,13 +37,12 @@ public class TimeSeries extends TreeMap<Integer, Double> {
     public List<Integer> years() {
         List<Integer> yearList = new ArrayList<>();
         int index = 0;
-        for (Integer year : this.keySet()) {
+        for (Integer year: this.keySet()) {
             yearList.add(index, year);
             index += 1;
         }
         return yearList;
     }
-
 
     /**
      * Returns all data for this TimeSeries (in any order).
