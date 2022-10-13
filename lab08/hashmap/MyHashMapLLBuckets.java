@@ -5,7 +5,6 @@ import java.util.Collection;
 
 /**
  * Hash Table with Linked List buckets
- * @author Neil Kulkarni
  */
 public class MyHashMapLLBuckets<K, V> extends MyHashMap<K, V> {
 
