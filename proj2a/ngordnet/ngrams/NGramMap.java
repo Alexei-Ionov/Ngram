@@ -57,9 +57,9 @@ public class NGramMap {
      *  to the object returned by this function should not also affect the
      *  NGramMap. This is also known as a "defensive copy". */
     public TimeSeries countHistory(String word) {
-       return countHelperMethod(word, 0, 0, false);
+        TimeSeries res = countHelperMethod(word, 0, 0, false);
+        return res;
     }
-
     private TimeSeries countHelperMethod(String word, int startYear, int endYear, boolean restriction) {
         TimeSeries map = (TimeSeries) wordMap.get(word);
         TimeSeries res = new TimeSeries();
@@ -76,7 +76,8 @@ public class NGramMap {
      *  changes made to the object returned by this function should not also affect the
      *  NGramMap. This is also known as a "defensive copy". */
     public TimeSeries countHistory(String word, int startYear, int endYear) {
-        return countHelperMethod(word, startYear, endYear, true);
+        TimeSeries res = countHelperMethod(word, startYear, endYear, true);
+        return res;
     }
 
     /** Returns a defensive copy of the total number of words recorded per year in all volumes. */
@@ -91,13 +92,15 @@ public class NGramMap {
     /** Provides a TimeSeries containing the relative frequency per year of WORD compared to
      *  all words recorded in that year. */
     public TimeSeries weightHistory(String word) {
-        return weightHelperMethod(word, 0, 0, false);
+        TimeSeries res = weightHelperMethod(word, 0, 0, false);
+        return res;
     }
 
     /** Provides a TimeSeries containing the relative frequency per year of WORD between STARTYEAR
      *  and ENDYEAR, inclusive of both ends. */
     public TimeSeries weightHistory(String word, int startYear, int endYear) {
-        return weightHelperMethod(word, startYear, endYear, true);
+        TimeSeries res = weightHelperMethod(word, startYear, endYear, true);
+        return res;
     }
     private TimeSeries weightHelperMethod(String word, int startYear, int endYear, boolean restriction) {
         TimeSeries res = new TimeSeries();
@@ -136,6 +139,7 @@ public class NGramMap {
      *  between STARTYEAR and ENDYEAR, inclusive of both ends. If a word does not exist in
      *  this time frame, ignore it rather than throwing an exception. */
     public TimeSeries summedWeightHistory(Collection<String> words, int startYear, int endYear) {
-        return summedWeightHelper(words, startYear, endYear, true);
+        TimeSeries res = summedWeightHelper(words, startYear, endYear, true);
+        return res;
     }
 }
