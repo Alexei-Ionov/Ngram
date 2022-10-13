@@ -103,6 +103,9 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     private Collection<Node>[] createTable(int tableSize) {
         Collection<Node>[] table = new Collection[tableSize];
+        for (int i = 0; i < tableSize; i++) {
+            table[i] = createBucket();
+        }
         return table;
     }
     private void resize(int newSize) {
@@ -114,7 +117,6 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             for (Node currNode : bucket) {
                 int hash = currNode.key.hashCode();
                 int hashcode = Math.floorMod(hash, bucketCount);
-                buckets[hashcode] = createBucket();
                 buckets[hashcode].add(createNode(currNode.key, currNode.value));
             }
         }
@@ -170,9 +172,6 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             resize(bucketCount * 2);
         }
         int hashcode = Math.floorMod(key.hashCode(), bucketCount);
-        if (buckets[hashcode] == null) {
-            buckets[hashcode] = createBucket();
-        }
         Node newNode = createNode(key, value);
         buckets[hashcode].add(newNode);
     }
