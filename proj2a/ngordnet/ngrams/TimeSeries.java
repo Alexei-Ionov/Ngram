@@ -1,7 +1,4 @@
 package ngordnet.ngrams;
-
-import org.w3c.dom.Node;
-
 import java.util.*;
 import java.util.TreeMap;
 

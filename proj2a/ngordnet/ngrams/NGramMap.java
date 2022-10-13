@@ -14,12 +14,12 @@ import java.util.TreeMap;
  *
  */
 public class NGramMap {
-
     /** Constructs an NGramMap from WORDSFILENAME and COUNTSFILENAME. */
     private TreeMap wordMap;
     private TimeSeries countMap;
     public NGramMap(String wordsFilename, String countsFilename) {
-        // thoughts: each word in wordsFileName should map to its own TimeSeriesMap (year --> #number of times it is seen)
+        // thoughts: each word in wordsFileName should map to its
+        // own TimeSeriesMap (year --> #number of times it is seen)
         wordMap = new TreeMap<String, TimeSeries>();
         countMap = new TimeSeries();
         //order in wordsFile is Word(String) --> Year(Integer) --> Count(Double) --> unnecessary
@@ -91,7 +91,7 @@ public class NGramMap {
     /** Provides a TimeSeries containing the relative frequency per year of WORD compared to
      *  all words recorded in that year. */
     public TimeSeries weightHistory(String word) {
-        return weightHelperMethod(word, 0, 0 , false);
+        return weightHelperMethod(word, 0, 0, false);
     }
 
     /** Provides a TimeSeries containing the relative frequency per year of WORD between STARTYEAR
@@ -112,9 +112,8 @@ public class NGramMap {
 
     /** Returns the summed relative frequency per year of all words in WORDS. */
     public TimeSeries summedWeightHistory(Collection<String> words) {
-       return summedWeightHelper(words, 0, 0, false);
+        return summedWeightHelper(words, 0, 0, false);
     }
-
     private TimeSeries summedWeightHelper(Collection<String> words, int startYear, int endYear, boolean restricted) {
         TimeSeries res = new TimeSeries();
         // year --> sum of freq of all words in that year
