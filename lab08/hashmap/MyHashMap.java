@@ -112,7 +112,8 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         buckets = createTable(bucketCount);
         for (Collection<Node> bucket : tempTable) {
             for (Node currNode : bucket) {
-                int hashcode = currNode.key.hashCode() % bucketCount;
+                int hash = currNode.key.hashCode();
+                int hashcode = Math.floorMod(hash, bucketCount);
                 buckets[hashcode] = createBucket();
                 buckets[hashcode].add(createNode(currNode.key, currNode.value));
             }
@@ -132,15 +133,15 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     }
     @Override
     public boolean containsKey(K key) {
-        int hashcode = key.hashCode() % bucketCount;
-        if (buckets[hashcode].isEmpty()) {
+        int hashcode = Math.floorMod(key.hashCode(), bucketCount);
+        if (buckets[hashcode] == null) {
             return false;
         }
         Node nodeOfInterest = nodeGetter(key);
         return nodeOfInterest != null;
     }
     private Node nodeGetter(K key) {
-        int hashcode = key.hashCode() % bucketCount;
+        int hashcode = Math.floorMod(key.hashCode(), bucketCount);
         for (Node currNode : buckets[hashcode]) {
             if (currNode.key.equals(key)) {
                 return currNode;
@@ -168,37 +169,13 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         if (oversized()) {
             resize(bucketCount * 2);
         }
-        int hashcode = key.hashCode() % bucketCount;
-        if (buckets[hashcode].isEmpty()) {
+        int hashcode = Math.floorMod(key.hashCode(), bucketCount);
+        if (buckets[hashcode] == null) {
             buckets[hashcode] = createBucket();
         }
         Node newNode = createNode(key, value);
         buckets[hashcode].add(newNode);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public Set<K> keySet() {
