@@ -115,9 +115,9 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         buckets = createTable(bucketCount);
         for (Collection<Node> bucket : tempTable) {
             for (Node currNode : bucket) {
-                int hash = currNode.key.hashCode();
-                int hashcode = Math.floorMod(hash, bucketCount);
-                buckets[hashcode].add(createNode(currNode.key, currNode.value));
+                int hashcode = Math.floorMod(currNode.key.hashCode(), bucketCount);
+                Collection head = buckets[hashcode];
+                head.add(currNode);
             }
         }
     }
@@ -130,7 +130,8 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     // Your code won't compile until you do so!
     @Override
     public void clear() {
-        buckets = createTable(startSize);
+        buckets = createTable(bucketCount);
+        size = 0;
 
     }
     @Override
@@ -171,9 +172,16 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         if (oversized()) {
             resize(bucketCount * 2);
         }
-        int hashcode = Math.floorMod(key.hashCode(), bucketCount);
-        Node newNode = createNode(key, value);
-        buckets[hashcode].add(newNode);
+        if (containsKey(key)) {
+            Node node = nodeGetter(key);
+            node.value = value;
+        } else {
+            int hashcode = Math.floorMod(key.hashCode(), bucketCount);
+            Collection head = buckets[hashcode];
+            Node newNode = createNode(key, value);
+            head.add(newNode);
+            size += 1;
+        }
     }
 
     @Override
