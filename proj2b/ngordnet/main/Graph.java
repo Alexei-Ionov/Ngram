@@ -119,6 +119,7 @@ public class Graph {
             }
         }
         Collections.sort(res);
+        visited.clear();
         return res;
 
     }
