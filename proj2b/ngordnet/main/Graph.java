@@ -21,6 +21,7 @@ public class Graph {
     private HashMap<String, HashSet<Integer>> wordToIndices;
     private int size;
     private ArrayList<String> tempRes;
+    private HashSet<Node> visited;
 
 
     public Graph(String hyponymFile, String synsetFile) {
@@ -31,16 +32,10 @@ public class Graph {
         wordToIndices = new HashMap<>();
         size = 0;
         tempRes = new ArrayList<>();
+        visited = new HashSet<>();
 
-        // I need a stringIntegerHashMap where --> key = word, value = ID
-        // since I will parse synset first, I can also come up with the exact number of distinct IDs; therefore,
-        // I will also know the exact number of indices needed for my adjacency list
-        // I need a second stringIntegerHashMap where --> key = ID, value = index in adj. list
         In synIn = new In(synsetFile);
-        //first input represents ID
-        //comma breaks inputs
-        //second input seperated by spaces are the words
-        //third input is useless
+
         while (synIn.hasNextLine()) {
             if (synIn.isEmpty()) {
                 break;
@@ -62,8 +57,8 @@ public class Graph {
                 }
             }
 
-
-            Node newNode = new Node(newWordsLst, null);
+            ArrayList<Integer> emptyHyponyms = new ArrayList<>();
+            Node newNode = new Node(newWordsLst, emptyHyponyms);
             graph.add(newNode);
             idToIndex.put(id, size);
             size += 1;
@@ -97,7 +92,6 @@ public class Graph {
             copy.add(ind);
         }
 
-
         for (String word : words) {
             for (Integer val : copy) {
                 if (!wordToIndices.get(word).contains(val)) {
@@ -107,16 +101,18 @@ public class Graph {
             }
             copy = indices;
         }
-        
+        ArrayList<String> containsDup = new ArrayList<>();
         for (Integer index : indices) {
+            tempRes.clear();
             dfs(index);
+            containsDup.addAll(tempRes);
         }
 
 
         HashSet<String> seen = new HashSet<>();
         ArrayList<String> res = new ArrayList<>();
 
-        for (String word : tempRes) {
+        for (String word : containsDup) {
             if (!seen.contains(word)) {
                 res.add(word);
                 seen.add(word);
@@ -130,15 +126,14 @@ public class Graph {
     private void dfs(Integer index) {
         //base case, if no neighbors
         Node node = graph.get(index);
-        if (node.neighbors == null) {
-            tempRes.addAll(node.synset);
-        } else {
-
+        if (!visited.contains(node)) {
+            visited.add(node);
             tempRes.addAll(node.synset);
             for (Integer val : node.neighbors) {
                 dfs(val);
             }
         }
+
     }
 
 

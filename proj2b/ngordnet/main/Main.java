@@ -1,4 +1,4 @@
-package ngordnet.main;
+package nggordnet.main;
 
 import ngordnet.hugbrowsermagic.HugNgordnetServer;
 import ngordnet.ngrams.NGramMap;
