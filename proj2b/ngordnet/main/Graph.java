@@ -18,7 +18,7 @@ public class Graph {
 
     private ArrayList<Node> graph = new ArrayList<>();
     private HashMap<Integer, Integer> idToIndex;
-    private HashMap<String, HashSet<Integer>> wordToIndices;
+    private HashMap<String, ArrayList<Integer>> wordToIndices;
     private int size;
     private ArrayList<String> tempRes;
     private HashSet<Node> visited;
@@ -48,10 +48,10 @@ public class Graph {
             ArrayList<String> newWordsLst = new ArrayList<>(Arrays.asList(wordsLst));
             for (String word : newWordsLst) {
                 if (wordToIndices.containsKey(word)) {
-                    HashSet<Integer> indices = wordToIndices.get(word);
+                    ArrayList<Integer> indices = wordToIndices.get(word);
                     indices.add(size);
                 } else {
-                    HashSet<Integer> indices = new HashSet<>();
+                    ArrayList<Integer> indices = new ArrayList<>();
                     indices.add(size);
                     wordToIndices.put(word, indices);
                 }
@@ -80,13 +80,14 @@ public class Graph {
             }
         }
     }
-    public ArrayList<String> hyponymsFinder(List<String> words) {
+    public ArrayList<String> hyponymsFinder(String goal) {
+        /*
         if (words.isEmpty()) {
             throw new IllegalArgumentException();
         }
 
-        ArrayList<Integer> indices = new ArrayList<>();
-        ArrayList<Integer> copy = new ArrayList<>();
+        HashSet<Integer> indices = new HashSet<>();
+        HashSet<Integer> copy = new HashSet<>();
         for (Integer ind : wordToIndices.get(words.get(0))) {
             indices.add(ind);
             copy.add(ind);
@@ -97,10 +98,12 @@ public class Graph {
                 if (!wordToIndices.get(word).contains(val)) {
                     indices.remove(val);
                 }
-
             }
             copy = indices;
         }
+         */
+        ArrayList<Integer> indices = wordToIndices.get(goal);
+
         ArrayList<String> containsDup = new ArrayList<>();
         for (Integer index : indices) {
             tempRes.clear();
@@ -118,7 +121,6 @@ public class Graph {
                 seen.add(word);
             }
         }
-        Collections.sort(res);
         visited.clear();
         return res;
 

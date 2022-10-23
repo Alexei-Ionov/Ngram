@@ -19,8 +19,7 @@ public class TestOneWordK0Hyponyms {
 
     @Test
     public void testAlteration() {
-        NgordnetQueryHandler studentHandler = AutograderBuddy.getHyponymHandler(
-                WORDS_FILE, TOTAL_COUNTS_FILE, SMALL_SYNSET_FILE, SMALL_HYPONYM_FILE);
+        NgordnetQueryHandler studentHandler = AutograderBuddy.getHyponymHandler(WORDS_FILE, TOTAL_COUNTS_FILE, SMALL_SYNSET_FILE, SMALL_HYPONYM_FILE);
         List<String> words = new ArrayList<>();
         words.add("act");
 
