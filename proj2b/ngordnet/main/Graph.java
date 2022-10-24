@@ -25,10 +25,6 @@ public class Graph {
     private int size;
     private ArrayList<ArrayList<String>> tempRes;
     private HashSet<Node> visited;
-    public HashMap<Integer, ArrayList<String>> idToWordLst;
-
-    public HashMap<Integer, Integer> idToFreq;
-
 
     public Graph(String hyponymFile, String synsetFile) {
         // construct the graph from the two files in the constructor
@@ -39,8 +35,6 @@ public class Graph {
         size = 0;
         tempRes = new ArrayList<>();
         visited = new HashSet<>();
-        idToFreq = new HashMap<>();
-        idToWordLst = new HashMap<>();
 
         In synIn = new In(synsetFile);
 
@@ -54,8 +48,6 @@ public class Graph {
             String words = info[1];
             String[] wordsLst = words.split(" ");
             ArrayList<String> newWordsLst = new ArrayList<>(Arrays.asList(wordsLst));
-
-            idToWordLst.put(id, newWordsLst);
 
             for (String word : newWordsLst) {
                 if (wordToIndices.containsKey(word)) {
@@ -105,11 +97,6 @@ public class Graph {
     private void dfs(Integer index) {
         //base case, if no neighbors
         Node node = graph.get(index);
-        if (!idToFreq.containsKey(node.ID)) {
-            idToFreq.put(node.ID, 1);
-        } else {
-            idToFreq.put(node.ID, idToFreq.get(node.ID) + 1);
-        }
         if (!visited.contains(node)) {
             visited.add(node);
             tempRes.add(node.synset);
@@ -119,16 +106,6 @@ public class Graph {
         }
 
     }
-    public void clearFreqHashMap() {
-        idToFreq.clear();
-    }
-    public HashMap<Integer, Integer> returnFreqHashMap() {
-        return idToFreq;
-    }
-    public HashMap<Integer, ArrayList<String>> returnIdToWordsLstHashMap() {
-        return idToWordLst;
-    }
-
 
 }
 
