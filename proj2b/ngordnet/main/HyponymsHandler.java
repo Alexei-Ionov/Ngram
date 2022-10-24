@@ -1,5 +1,8 @@
 package ngordnet.main;
 import java.util.*;
+
+import edu.princeton.cs.algs4.Heap;
+import edu.princeton.cs.algs4.MinPQ;
 import ngordnet.hugbrowsermagic.NgordnetQuery;
 import ngordnet.hugbrowsermagic.NgordnetQueryHandler;
 import ngordnet.ngrams.NGramMap;
@@ -49,15 +52,14 @@ public class HyponymsHandler extends NgordnetQueryHandler {
                 res.add(word);
             }
         }
-        //first imlpementation
+        //first implementation: return simply based off alphabetical
         if (q.k() == 0) {
             Collections.sort(res);
-            String listString = String.join(", ", res);
-            return listString;
+            return res.toString();
         }
-        //else return based on popularity
+        //else return based on popularity + alphabetical ordering
 
-        HashMap<Double, ArrayList<String>> secondMap = new HashMap<>();
+        HashMap<Double, ArrayList<String>> map = new HashMap<>();
         for (String word : res) {
             TimeSeries ts = ngm.countHistory(word, q.startYear(), q.endYear());
             //word not used in b/w start and end year
@@ -68,17 +70,45 @@ public class HyponymsHandler extends NgordnetQueryHandler {
             for (Integer year : ts.keySet()) {
                 freq += ts.get(year);
             }
-
-            ArrayList<String> lst = secondMap.get(freq);
-            lst.add(word);
+            if (!map.containsKey(freq)) {
+                ArrayList<String> lst = new ArrayList<>();
+                lst.add(word);
+                map.put(freq, lst);
+            } else {
+                map.get(freq).add(word);
+            }
         }
         // no words at all were added
-        if (secondMap.isEmpty()) {
+        if (map.isEmpty()) {
             return "[]";
         }
 
 
+        MinPQ<Double> minHeap = new MinPQ<>();
+        for (Double freq : map.keySet()) {
+            minHeap.insert(freq);
+        }
+        int i = q.k();
         ArrayList<String> finalAns = new ArrayList<>();
+        while (i > 0) {
+            for (String word : map.get(minHeap.delMin())) {
+                if (i <= 0) {
+                    break;
+                }
+                finalAns.add(word);
+                i += 1;
+            }
+        }
+        return finalAns.toString();
+    }
+}
+
+
+
+
+        /*
+
+
         ArrayList<Double> frequencies = new ArrayList<>(secondMap.keySet());
         Collections.sort(frequencies);
         int i = 0;
@@ -97,6 +127,8 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         return listString;
     }
 }
+
+         */
 
 
 

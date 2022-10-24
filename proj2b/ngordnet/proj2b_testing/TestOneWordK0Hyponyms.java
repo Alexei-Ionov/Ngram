@@ -16,7 +16,9 @@ public class TestOneWordK0Hyponyms {
     public static final String TOTAL_COUNTS_FILE = "data/ngrams/total_counts.csv";
     public static final String SMALL_SYNSET_FILE = "data/wordnet/synsets16.txt";
     public static final String SMALL_HYPONYM_FILE = "data/wordnet/hyponyms16.txt";
+}
 
+    /*
     @Test
 <<<<<<< HEAD
     public void testAlteration() {
@@ -36,3 +38,7 @@ public class TestOneWordK0Hyponyms {
         assertEquals(expected, actual);
     }
 }
+
+     */
+
+

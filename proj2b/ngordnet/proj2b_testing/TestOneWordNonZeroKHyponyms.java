@@ -43,7 +43,7 @@ public class TestOneWordNonZeroKHyponyms {
     }
 
     /** Tests finding top hyponym of dash (k = 1) for startYear = 2007, endYear = 2007.
-     *  The result should just be ["style"] since potato is the most popular hyponym of dash in 2007 */
+     *  The result should just be ["style"] since style is the most popular hyponym of dash in 2007 */
     @Test
     public void testDashK1in2007() {
         List<String> words = List.of("dash");
