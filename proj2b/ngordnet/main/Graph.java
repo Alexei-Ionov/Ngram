@@ -8,10 +8,13 @@ public class Graph {
     private class Node {
         private ArrayList<String> synset;
         private ArrayList<Integer> neighbors;
+        private Integer ID;
 
-        private Node(ArrayList<String> syns, ArrayList<Integer> hyponyms) {
+        private Node(ArrayList<String> syns, ArrayList<Integer> hyponyms, Integer id) {
+            ID = id;
             synset = syns;
             neighbors = hyponyms;
+
         }
 
     }
@@ -20,8 +23,11 @@ public class Graph {
     private HashMap<Integer, Integer> idToIndex;
     private HashMap<String, ArrayList<Integer>> wordToIndices;
     private int size;
-    private ArrayList<String> tempRes;
+    private ArrayList<ArrayList<String>> tempRes;
     private HashSet<Node> visited;
+    public HashMap<Integer, ArrayList<String>> idToWordLst;
+
+    public HashMap<Integer, Integer> idToFreq;
 
 
     public Graph(String hyponymFile, String synsetFile) {
@@ -33,6 +39,8 @@ public class Graph {
         size = 0;
         tempRes = new ArrayList<>();
         visited = new HashSet<>();
+        idToFreq = new HashMap<>();
+        idToWordLst = new HashMap<>();
 
         In synIn = new In(synsetFile);
 
@@ -46,6 +54,9 @@ public class Graph {
             String words = info[1];
             String[] wordsLst = words.split(" ");
             ArrayList<String> newWordsLst = new ArrayList<>(Arrays.asList(wordsLst));
+
+            idToWordLst.put(id, newWordsLst);
+
             for (String word : newWordsLst) {
                 if (wordToIndices.containsKey(word)) {
                     ArrayList<Integer> indices = wordToIndices.get(word);
@@ -58,7 +69,7 @@ public class Graph {
             }
 
             ArrayList<Integer> emptyHyponyms = new ArrayList<>();
-            Node newNode = new Node(newWordsLst, emptyHyponyms);
+            Node newNode = new Node(newWordsLst, emptyHyponyms, id);
             graph.add(newNode);
             idToIndex.put(id, size);
             size += 1;
@@ -80,63 +91,42 @@ public class Graph {
             }
         }
     }
-    public ArrayList<String> hyponymsFinder(String goal) {
-        /*
-        if (words.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-
-        HashSet<Integer> indices = new HashSet<>();
-        HashSet<Integer> copy = new HashSet<>();
-        for (Integer ind : wordToIndices.get(words.get(0))) {
-            indices.add(ind);
-            copy.add(ind);
-        }
-
-        for (String word : words) {
-            for (Integer val : copy) {
-                if (!wordToIndices.get(word).contains(val)) {
-                    indices.remove(val);
-                }
-            }
-            copy = indices;
-        }
-         */
+    public ArrayList<ArrayList<String>> hyponymsFinder(String goal) {
         ArrayList<Integer> indices = wordToIndices.get(goal);
-
-        ArrayList<String> containsDup = new ArrayList<>();
+        tempRes.clear();
         for (Integer index : indices) {
-            tempRes.clear();
             dfs(index);
-            containsDup.addAll(tempRes);
-        }
-
-
-        HashSet<String> seen = new HashSet<>();
-        ArrayList<String> res = new ArrayList<>();
-
-        for (String word : containsDup) {
-            if (!seen.contains(word)) {
-                res.add(word);
-                seen.add(word);
-            }
         }
         visited.clear();
-        return res;
+        return tempRes;
 
     }
 
     private void dfs(Integer index) {
         //base case, if no neighbors
         Node node = graph.get(index);
+        if (!idToFreq.containsKey(node.ID)) {
+            idToFreq.put(node.ID, 1);
+        } else {
+            idToFreq.put(node.ID, idToFreq.get(node.ID) + 1);
+        }
         if (!visited.contains(node)) {
             visited.add(node);
-            tempRes.addAll(node.synset);
+            tempRes.add(node.synset);
             for (Integer val : node.neighbors) {
                 dfs(val);
             }
         }
 
+    }
+    public void clearFreqHashMap() {
+        idToFreq.clear();
+    }
+    public HashMap<Integer, Integer> returnFreqHashMap() {
+        return idToFreq;
+    }
+    public HashMap<Integer, ArrayList<String>> returnIdToWordsLstHashMap() {
+        return idToWordLst;
     }
 
 

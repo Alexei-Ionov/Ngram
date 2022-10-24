@@ -1,6 +1,7 @@
 package ngordnet.hugbrowsermagic;
 
 import com.google.gson.Gson;
+import ngordnet.ngrams.NGramMap;
 import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
