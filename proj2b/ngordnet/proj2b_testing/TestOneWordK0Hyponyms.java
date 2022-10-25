@@ -16,22 +16,13 @@ public class TestOneWordK0Hyponyms {
     public static final String TOTAL_COUNTS_FILE = "data/ngrams/total_counts.csv";
     public static final String SMALL_SYNSET_FILE = "data/wordnet/synsets16.txt";
     public static final String SMALL_HYPONYM_FILE = "data/wordnet/hyponyms16.txt";
-}
 
-    /*
+
     @Test
-<<<<<<< HEAD
-    public void testAlteration() {
-        NgordnetQueryHandler studentHandler = AutograderBuddy.getHyponymHandler(WORDS_FILE, TOTAL_COUNTS_FILE, SMALL_SYNSET_FILE, SMALL_HYPONYM_FILE);
-        List<String> words = new ArrayList<>();
-        words.add("act");
-=======
     public void testActK0() {
         NgordnetQueryHandler studentHandler = AutograderBuddy.getHyponymHandler(
                 WORDS_FILE, TOTAL_COUNTS_FILE, SMALL_SYNSET_FILE, SMALL_HYPONYM_FILE);
         List<String> words = List.of("act");
->>>>>>> 44d4a40a926d8fd5420b5f03b6609a3612b2eee8
-
         NgordnetQuery nq = new NgordnetQuery(words, 0, 0, 0);
         String actual = studentHandler.handle(nq);
         String expected = "[act, action, change, demotion, human_action, human_activity, variation]";
@@ -39,6 +30,6 @@ public class TestOneWordK0Hyponyms {
     }
 }
 
-     */
+
 
 

@@ -63,9 +63,7 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         for (String word : res) {
             TimeSeries ts = ngm.countHistory(word, q.startYear(), q.endYear());
             //word not used in b/w start and end year
-            if (ts == null || ts.isEmpty()) {
-                continue;
-            } else {
+            if (!ts.isEmpty()) {
                 Double freq = 0.0;
                 for (Integer year : ts.keySet()) {
                     freq += ts.get(year);
@@ -86,19 +84,25 @@ public class HyponymsHandler extends NgordnetQueryHandler {
 
         MinPQ<Double> minHeap = new MinPQ<>();
         for (Double freq : map.keySet()) {
-            minHeap.insert(freq);
+            minHeap.insert((-1 * freq));
         }
         int i = q.k();
         ArrayList<String> finalAns = new ArrayList<>();
         while (i > 0) {
-            for (String word : map.get(minHeap.delMin())) {
+            for (String word : map.get((-1 * minHeap.delMin()))) {
                 if (i <= 0) {
                     break;
                 }
                 finalAns.add(word);
-                i += 1;
+                if (minHeap.isEmpty()) {
+                    //less hyonyms then there are k
+                    i = 0;
+                    break;
+                }
+                i -= 1;
             }
         }
+        Collections.sort(finalAns);
         return finalAns.toString();
     }
 }
