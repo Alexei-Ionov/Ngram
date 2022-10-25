@@ -63,26 +63,26 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         for (String word : res) {
             TimeSeries ts = ngm.countHistory(word, q.startYear(), q.endYear());
             //word not used in b/w start and end year
-            if (ts.isEmpty()) {
+            if (ts == null || ts.isEmpty()) {
                 continue;
-            }
-            Double freq = 0.0;
-            for (Integer year : ts.keySet()) {
-                freq += ts.get(year);
-            }
-            if (!map.containsKey(freq)) {
-                ArrayList<String> lst = new ArrayList<>();
-                lst.add(word);
-                map.put(freq, lst);
             } else {
-                map.get(freq).add(word);
+                Double freq = 0.0;
+                for (Integer year : ts.keySet()) {
+                    freq += ts.get(year);
+                }
+                if (!map.containsKey(freq)) {
+                    ArrayList<String> lst = new ArrayList<>();
+                    lst.add(word);
+                    map.put(freq, lst);
+                } else {
+                    map.get(freq).add(word);
+                }
             }
         }
         // no words at all were added
         if (map.isEmpty()) {
             return "[]";
         }
-
 
         MinPQ<Double> minHeap = new MinPQ<>();
         for (Double freq : map.keySet()) {
