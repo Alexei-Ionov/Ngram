@@ -1,14 +1,11 @@
 package ngordnet.main;
 import java.util.*;
-
 import edu.princeton.cs.algs4.MinPQ;
 import ngordnet.hugbrowsermagic.NgordnetQuery;
 import ngordnet.hugbrowsermagic.NgordnetQueryHandler;
 import ngordnet.ngrams.NGramMap;
 import ngordnet.ngrams.TimeSeries;
-
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class HyponymsHandler extends NgordnetQueryHandler {
     private Graph graph;
@@ -21,17 +18,13 @@ public class HyponymsHandler extends NgordnetQueryHandler {
 
     @Override
     public String handle(NgordnetQuery q) {
-        //q has: words, int startYear, int EndYear, int k
-        //
         int req = 0;
         HashMap<String, Integer> hashMap = new HashMap<>();
-
         HashSet<String> seen = new HashSet<>();
-
         for (String word : q.words()) {
             ArrayList<ArrayList<String>> temp = graph.hyponymsFinder(word);
             if (temp.isEmpty()) {
-                continue;
+                return "[]";
             }
             seen.clear();
             for (ArrayList<String> group : temp) {
@@ -54,13 +47,11 @@ public class HyponymsHandler extends NgordnetQueryHandler {
                 res.add(word);
             }
         }
-        //first implementation: return simply based off alphabetical
         if (q.k() == 0) {
             Collections.sort(res);
             return res.toString();
         }
         //else return based on popularity + alphabetical ordering
-
         HashMap<Double, ArrayList<String>> map = new HashMap<>();
         for (String word : res) {
             TimeSeries ts = ngm.countHistory(word, q.startYear(), q.endYear());
@@ -83,7 +74,6 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         if (map.isEmpty()) {
             return "[]";
         }
-
         MinPQ<Double> minHeap = new MinPQ<>();
         for (Double freq : map.keySet()) {
             minHeap.insert((-1 * freq));
@@ -97,7 +87,6 @@ public class HyponymsHandler extends NgordnetQueryHandler {
                 }
                 finalAns.add(word);
                 if (minHeap.isEmpty()) {
-                    //less hyonyms then there are k
                     i = 0;
                     break;
                 }
