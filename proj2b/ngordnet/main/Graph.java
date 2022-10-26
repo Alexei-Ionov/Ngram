@@ -85,14 +85,18 @@ public class Graph {
     }
     public ArrayList<ArrayList<String>> hyponymsFinder(String goal) {
         ArrayList<Integer> indices = wordToIndices.get(goal);
+        //empty if the inputted word is not in the SynFile
         tempRes.clear();
-        for (Integer index : indices) {
-            dfs(index);
+        if (!indices.isEmpty()) {
+            for (Integer index : indices) {
+                dfs(index);
+            }
         }
         visited.clear();
         return tempRes;
 
     }
+
 
     private void dfs(Integer index) {
         //base case, if no neighbors

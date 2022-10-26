@@ -1,7 +1,6 @@
 package ngordnet.main;
 import java.util.*;
 
-import edu.princeton.cs.algs4.Heap;
 import edu.princeton.cs.algs4.MinPQ;
 import ngordnet.hugbrowsermagic.NgordnetQuery;
 import ngordnet.hugbrowsermagic.NgordnetQueryHandler;
@@ -31,6 +30,9 @@ public class HyponymsHandler extends NgordnetQueryHandler {
 
         for (String word : q.words()) {
             ArrayList<ArrayList<String>> temp = graph.hyponymsFinder(word);
+            if (temp.isEmpty()) {
+                continue;
+            }
             seen.clear();
             for (ArrayList<String> group : temp) {
                 for (String string : group) {
